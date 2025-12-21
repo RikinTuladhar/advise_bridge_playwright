@@ -85,7 +85,10 @@ test("Login for institution", async ({ page }) => {
   await page.getByRole("button", { name: "Add Education Level" }).click();
   await page.getByText("Select Education Level").click();
   await page.getByRole("option", { name: insitution_data.education_level[0].education_level }).click();
-  await page.getByRole("textbox", { name: "Tuition fee" }).fill(insitution_data.education_level[0].tution_fee);
+  await page
+    .getByRole("spinbutton", { name: "Tuition fee" })
+    .first()
+    .fill(insitution_data.education_level[0].tution_fee);
   await page.getByText("Select Commission Type").click();
   await page.getByRole("option", { name: insitution_data.education_level[0].commission_type }).click();
   await page
@@ -121,32 +124,35 @@ test("Login for institution", async ({ page }) => {
   await page.getByRole("button", { name: "Add Education Level" }).click();
   await page.getByText("Select Education Level").click();
   await page.getByRole("option", { name: insitution_data.education_level[1].education_level }).click();
-  await page.getByRole("textbox", { name: "Tuition fee" }).nth(1).fill(insitution_data.education_level[1].tution_fee);
+  await page
+    .getByRole("spinbutton", { name: "Tuition fee", exact: true })
+    .last()
+    .fill(insitution_data.education_level[1].tution_fee);
   await page.getByText("Select Commission Type").click();
   await page.getByRole("option", { name: insitution_data.education_level[1].commission_type }).click();
   await page
     .getByRole("spinbutton", { name: "Commission of Tuition Fee" })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].commission_tution_fee);
   await page
     .getByRole("spinbutton", { name: "Commission of Agent" })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].commission_of_agent);
   await page
     .getByRole("spinbutton", { name: "Application Fee Strikethrough" })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].application_fee_strikthrough);
   await page
     .getByRole("spinbutton", { name: "Application Fee", exact: true })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].application_fee);
   await page
     .getByRole("spinbutton", { name: "Deposit Amount" })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].deposit_amount);
   await page
     .getByRole("spinbutton", { name: "Accommodation & other fees" })
-    .nth(1)
+    .last()
     .fill(insitution_data.education_level[1].accommodation_other_fee);
   await page.getByText("Select Major").click();
   await page

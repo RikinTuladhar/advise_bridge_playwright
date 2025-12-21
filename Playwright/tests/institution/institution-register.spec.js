@@ -1,4 +1,5 @@
 import test from "playwright/test";
+import { institutionData } from "../../datas/institution-data";
 
 test("Register for insitution", async ({ page }) => {
   const insitution_data = institutionData;
