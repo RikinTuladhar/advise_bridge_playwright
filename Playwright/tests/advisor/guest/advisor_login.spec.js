@@ -1,19 +1,33 @@
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
+import { AdvisorPage } from "../../../pages/AdvisorPage";
 
-test("Advisor Login Page", async ({ page }) => {
-  await page.goto("https://advisebridge.com/login?tab=advisor");
+test("Valid Login", async ({ page }) => {
+  const advisor = {
+    email: "chalaunrrabina@gmail.com",
+    password: "bestNepal@123",
+  };
+  const advisor_page = new AdvisorPage(page);
+  await advisor_page.goToAdvisorLoginGuest();
+  await advisor_page.logInAsGuestToAdvisor(advisor.email, advisor.password);
+  await advisor_page.logout();
+});
 
-  await page.click("text=Advisor");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
-  await page.click("//button[normalize-space()='Log in as advisor']");
+test("Invalid email", async ({ page }) => {
+  const advisor = {
+    email: "invalid@gmail.com",
+    password: "bestNepal@123",
+  };
+  const advisor_page = new AdvisorPage(page);
+  await advisor_page.goToAdvisorLoginGuest();
+  await advisor_page.logInAsGuestToAdvisorInvalidEmail(advisor.email, advisor.password);
+});
 
-  await expect(page).toHaveURL("https://advisebridge.com/advisor");
-
-  await page.waitForTimeout(5000);
-
-  // Wait for the element to be visible first
-  await page.locator(".fi-avatar").first().waitFor({
-    state: "visible",
-  });
-})
+test("Invalid password", async ({ page }) => {
+  const advisor = {
+    email: "invalid@gmail.com",
+    password: "bestNepal@123",
+  };
+  const advisor_page = new AdvisorPage(page);
+  await advisor_page.goToAdvisorLoginGuest();
+  await advisor_page.logInAsGuestToAdvisorInvalidPassword(advisor.email, advisor.password);
+});
