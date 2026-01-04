@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-test("Advisor Login Page", async ({ page }) => {
+test("Advisor Login Page", async ({ page }) => 
+    {
   await page.goto("https://advisebridge.com/login?tab=advisor");
 
   await page.click("text=Advisor");
@@ -15,5 +16,5 @@ test("Advisor Login Page", async ({ page }) => {
   // Wait for the element to be visible first
   await page.locator(".fi-avatar").first().waitFor({
     state: "visible",
-  });
-})
+  })
+});
