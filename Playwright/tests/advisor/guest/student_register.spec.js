@@ -7,7 +7,7 @@ test("Student Login Page", async ({ page }) => {
 
     await page.getByLabel('First name').fill('Mamata');
     await page.getByLabel('Last name').fill('Khanal');
-    await page.getByLabel('Email').fill('mamatakhanal@gmail.com');
+    await page.getByLabel('Email').fill('mamatakhanal12@gmail.com');
 
     await page.locator('input[name="password"]').fill('Mamat@12');
     await page.locator('input[name="password_confirmation"]').fill('Mamat@12');

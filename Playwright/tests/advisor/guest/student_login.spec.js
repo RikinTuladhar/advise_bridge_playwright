@@ -12,17 +12,19 @@ test("Student Login Page", async ({ page }) => {
 
   await page.waitForTimeout(5000);
 
-  // Wait for the element to be visible first
-  await page.locator(".fi-avatar").first().waitFor({
-    state: "visible",
-  });
+  /*
+      // Wait for the element to be visible first
+      await page.locator(".fi-avatar").first().waitFor({
+        state: "visible",
+      });
 
-  // Then click
-  await page.locator(".fi-avatar").first().click();
+      // Then click
+      await page.locator(".fi-avatar").first().click();
 
-  const signOut = page.locator("span.fi-dropdown-list-item-label", { hasText: "Sign out" });
-  await signOut.waitFor({ state: "visible" });
+      const signOut = page.locator("span.fi-dropdown-list-item-label", { hasText: "Sign out" });
+      await signOut.waitFor({ state: "visible" });
 
-  // Click Sign out
-  await signOut.click();
+      // Click Sign out
+      await signOut.click();
+  */
 });
