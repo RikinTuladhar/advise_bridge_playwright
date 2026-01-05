@@ -9,6 +9,6 @@ export async function login(page) {
   await page.click("//button[normalize-space()='Log in as student']");
 
   await expect(page).toHaveURL("https://www.advisebridge.com/student");
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(3000);
   
 };

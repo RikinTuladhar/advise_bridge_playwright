@@ -6,33 +6,47 @@ test("Student Dashboard", async ({ page }) => {
 
     await page.click("text=Profile Information");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-profile-tab");
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(3000);
 
     //Profile
-    //await page.click("//button[normalize-space()='Profile']");
-    await page.fill("#data\\.first_name", "Mamata");
-    await page.fill("#data\\.last_name", "Khanal");
-    await page.fill("#data\\.phone", "974422931");
+    await page.fill("#data\\.first_name", "mamata");
+    await page.waitForTimeout(2000);
+    await page.fill("#data\\.last_name", "khanal");
+    await page.waitForTimeout(2000);
+    await page.fill("#data\\.phone", "9744229321");
+    await page.waitForTimeout(2000);
 
     /*
-    //Click DOB
-    await page.click("#data\\.dob");
-    await page.selectOption('select[x-model="focusedMonth"]', '2'); // Select month
-    await page.click('input[x-model="focusedYear"]', '2005'); // Select year
-    await page.locator('div[role="option"]', { hasText: '26' }).click(); //Select day
+    await page.locator('#data\\.dob');
+    await page.locator('input[x-model.debounce="focusedYear"]').fill('2005'); //Year
+    await page.waitForTimeout(2000);
+    await page.locator('select[x-model="focusedMonth"]').selectOption('5');  //Month
+    await page.waitForTimeout(2000);
+    await page.locator('[role="option"]', { hasText: '15' }).click(); //Day
+    await page.waitForTimeout(2000);
     */
 
     // Select Female
     await page.locator('input[name="data.gender"][value="female"]').check();
-    await page.fill("#data\\.birth_place", "Kathmandu");
+    await page.waitForTimeout(2000);
+    await page.fill("#data\\.birth_place", "simara");
+    await page.waitForTimeout(2000);
     await page.click("//button[normalize-space()='Save']");
 
-    /*
     //Address
     await page.click("//button[normalize-space()='Address']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
     await page.waitForTimeout(5000);
 
+
+    // Click the dropdown to open it
+    await page.locator('.choices__inner').click();
+    await page.selectOption('#data.country_id', { label: 'Nepal' });
+
+
+
+
+    /*
     //Language
     await page.click("//button[normalize-space()='Language']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
@@ -54,6 +68,6 @@ test("Student Dashboard", async ({ page }) => {
     await page.waitForTimeout(5000);
 
     */
-    
+
 
 });
