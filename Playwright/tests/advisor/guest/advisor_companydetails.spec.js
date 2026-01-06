@@ -24,4 +24,13 @@ test("Advisor company details page", async ({ page }) => {
 
   await page.getByRole("button", { name: "Save & Continue" }).click();
 
+  await expect(page.getByText('Bank Name*')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Bank Branch*')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Bank account*')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Bank Account Name*')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Bank Routing*')).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText('Bank Swift Code*')).toBeVisible({ timeout: 5000 });
+
+  await page.getByRole("button", { name: "Save Change" }).click();
+
 });
