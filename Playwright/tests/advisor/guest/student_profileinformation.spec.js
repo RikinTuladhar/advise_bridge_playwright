@@ -33,16 +33,15 @@ test("Student Dashboard", async ({ page }) => {
     await page.waitForTimeout(5000);
 
 
-    //Address
-    // await page.click("//button[normalize-space()='Address']");
-    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
-    // await page.waitForTimeout(3000);
-    // await page.locator('.choices__inner').click();
-    // await page.locator('.choices__list--dropdown .choices__item', {
-    //     hasText: 'Afghanistan'
-    // }).click();
-
-
+    // Address
+    await page.click("//button[normalize-space()='Address']");
+    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
+    await page.waitForTimeout(3000);
+    await page.locator('.choices__inner').click();
+    await page.locator('.choices__list .choices__item', { hasText: 'Nepal' }).click();
+    await expect(page.locator('.choices__item--selectable.is-selected')).toHaveText('Nepal');
+    await page.waitForTimeout(5000);
+   
 
     //Language
     await page.click("//button[normalize-space()='Language']");
@@ -71,61 +70,12 @@ test("Student Dashboard", async ({ page }) => {
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-gpa-kse-tab");
     await page.waitForTimeout(1000);
     await page.locator('.choices__inner', { has: page.locator('#data\\.gpa_id') }).click();
-    await page.locator('.choices__list--dropdown .choices__item', { hasText: '0-4' }).click();
+    await page.locator('.choices__list--dropdown .choices__item', { hasText: '1-100' }).click();
     await page.waitForTimeout(1000);
-
-
-    // Open GPA dropdown
-    await page
-        .locator('.choices:has(#data\\.gpa_score_id) .choices__inner')
-        .click();
-
-    // Type GPA in search box
-    await page
-        .locator('.choices:has(#data\\.gpa_score_id) input.choices__input--cloned')
-        .fill('1.75');
-
-    // Click GPA value
-    await page
-        .locator(
-            '.choices:has(#data\\.gpa_score_id) .choices__list--dropdown .choices__item',
-            { hasText: '1.75' }
-        )
-        .click();
-
-
-    // // Scope to GPA score dropdown
-    // const gpaScore = page.locator('.choices', {
-    //     has: page.locator('#data\\.gpa_score_id'),
-    // });
-
-    // // Open dropdown
-    // await gpaScore.locator('.choices__inner').click();
-
-    // // Wait until THIS dropdown is active
-    // await expect(
-    //     gpaScore.locator('.choices__list--dropdown')
-    // ).toHaveClass(/is-active/);
-
-    // // Type into search box
-    // await gpaScore
-    //     .locator('input.choices__input--cloned')
-    //     .fill('1.75');
-
-    // // Click the score
-    // await gpaScore
-    //     .locator('.choices__list--dropdown .choices__item', { hasText: '1.75' })
-    //     .click();
-
-
-
 
     await page.locator('button:has-text("Save")').nth(3).click();
     await page.waitForTimeout(5000);
 
-});
-
-/*
     //Academics
     await page.click("//button[normalize-space()='Academics']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
@@ -135,6 +85,5 @@ test("Student Dashboard", async ({ page }) => {
     await page.click("//button[normalize-space()='Documents']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
     await page.waitForTimeout(5000);
- 
-*/
 
+});
