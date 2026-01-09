@@ -29,7 +29,7 @@ test("Student Dashboard", async ({ page }) => {
     // await page.waitForTimeout(2000);
     // await page.fill("#data\\.birth_place", "simara");
     // await page.waitForTimeout(2000);
-    // await page.click("//button[normalize-space()='Save']");
+    // await page.locator('button:has-text("Save")').nth(0).click();
     // await page.waitForTimeout(5000);
 
 
@@ -63,6 +63,8 @@ test("Student Dashboard", async ({ page }) => {
     // await expect(selectedItem).toHaveText('Nepal');
     // await page.waitForTimeout(5000);
 
+    // await page.locator('button:has-text("Save")').nth(1).click();
+    // await page.waitForTimeout(5000);
 
 
     // // Language
@@ -90,45 +92,65 @@ test("Student Dashboard", async ({ page }) => {
     // // GPA & KSE
     // await page.click("//button[normalize-space()='GPA & KSE']");
     // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-gpa-kse-tab");
-    // await page.waitForTimeout(1000);
+    // await page.waitForTimeout(2000);
     // await page.locator('.choices__inner', { has: page.locator('#data\\.gpa_id') }).click();
-    // await page.locator('.choices__list--dropdown .choices__item', { hasText: '1-100' }).click();
-    // await page.waitForTimeout(1000);
+    // await page.locator('.choices__list--dropdown .choices__item', { hasText: '0-4' }).click();
+    // await page.waitForTimeout(2000);
+
+    // await page.locator('.choices__inner', { has: page.locator('#data\\.knowledge_skill_exam_id') }).click();
+    // await page.locator('.choices__list--dropdown .choices__item', { hasText: 'GRE' }).click();
+    // await page.waitForTimeout(2000);
+
+    // await page.getByRole('spinbutton', { name: 'Knowledge skill exam score' }).fill('150');
+    // await page.waitForTimeout(2000);
 
     // await page.locator('button:has-text("Save")').nth(3).click();
     // await page.waitForTimeout(5000);
 
-    //Academics
-    await page.click("//button[normalize-space()='Academics']");
-    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-academics-tab");
+    // //Academics
+    // await page.click("//button[normalize-space()='Academics']");
+    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-academics-tab");
+    // await page.waitForTimeout(5000);
+
+    // await page.getByRole('textbox', { name: 'Institution name*' }).fill('PadmaKanya Campus');
+    // await page.waitForTimeout(2000);
+
+    // await page.getByRole('textbox', { name: 'Street' }).fill('Bagbazae');
+    // await page.waitForTimeout(2000);
+
+    // await page.locator('.choices__list--single').nth(0).click();
+    // await page.getByRole('option', { name: "Iran" }).click();
+
+    // await page.locator('.choices__list--single').nth(1).click();
+    // await page.getByRole('option', { name: "Fars" }).click();
+
+    // await page.locator('.choices__list--single').nth(2).click();
+    // await page.getByRole('option', { name: "Ahel" }).click();
+
+    // await page.getByRole('textbox', { name: 'Zip code' }).fill('0451');
+    // await page.waitForTimeout(2000);
+
+    // await page.locator('.choices__list--single').nth(3).click();
+    // await page.getByRole('option', { name: "Bachelor's Degree" }).click();
+
+    // await page.locator('.choices__list--single').nth(4).click();
+    // await page.getByRole('option', { name: "2025" }).click();
+
+    // await page.locator('button:has-text("Save")').nth(4).click();
+    // await page.waitForTimeout(5000);
+
+    // Document 
+    await page.click("//button[normalize-space()='Documents']");
+    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
     await page.waitForTimeout(5000);
 
-    await page.fill("#data\\.education_history\\.bf592a61-8ca1-4fd0-ba49-6b87913b77f6\\.institution_name", 'PK Campus');
-    await page.waitForTimeout(2000);
-
-    await page.fill("#data\\.education_history\\.bf592a61-8ca1-4fd0-ba49-6b87913b77f6\\.street",'Kathmandu');
-    await page.waitForTimeout(2000);
-
-    // Locate the dropdown using the hidden select id
-    const levelDropdown = page.locator('.choices', {
-        has: page.locator('#data\\.education_history\\.bf592a61-8ca1-4fd0-ba49-6b87913b77f6\\.level_of_study')
-    });
-
-    // Open dropdown
-    await levelDropdown.locator('.choices__inner').click();
-
-    // Click "High School"
-    await levelDropdown
-        .locator('.choices__list--dropdown .choices__item', { hasText: 'High School' })
-        .click();
-
-    // Assert selected value
-    await expect(
-        levelDropdown.locator('.choices__list--single .choices__item')
-    ).toHaveText('High School');
+    await page
+        .locator('input[type="file"]')
+        .setInputFiles('tests/upload/photo.jpg');
 
 
-    await page.fill("#data\\.education_history\\.bf592a61-8ca1-4fd0-ba49-6b87913b77f6\\.zip_code");
-    await page.waitForTimeout(2000);
+    await page.locator('button:has-text("Save")').nth(5).click();
+    await page.waitForTimeout(5000);
+
 
 });
