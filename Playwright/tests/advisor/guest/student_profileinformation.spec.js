@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { login } from "./helper/stu_login.js";
+import path from 'path';
 
 test("Student Dashboard", async ({ page }) => {
 
@@ -10,11 +11,11 @@ test("Student Dashboard", async ({ page }) => {
     await page.waitForTimeout(3000);
 
     // //Profile Information
-    // await page.fill("#data\\.first_name", "Mamata");
+    // await page.locator("#data\\.first_name").fill("Mamata");
     // await page.waitForTimeout(2000);
-    // await page.fill("#data\\.last_name", "Khanal");
+    // await page.locator("#data\\.last_name").fill("Khanal");
     // await page.waitForTimeout(2000);
-    // await page.fill("#data\\.phone", "9744229321");
+    // await page.locator("#data\\.phone").fill("9744229321");
     // await page.waitForTimeout(2000);
 
     // // await page.locator('#data\\.dob');
@@ -67,7 +68,7 @@ test("Student Dashboard", async ({ page }) => {
     // await page.waitForTimeout(5000);
 
 
-    // // Language
+    // // // Language
     // await page.click("//button[normalize-space()='Language']");
     // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-language-tab");
     // await page.waitForTimeout(2000);
@@ -75,15 +76,15 @@ test("Student Dashboard", async ({ page }) => {
     // await page.locator('.choices__list .choices__item', { hasText: 'IELTS' }).click();
     // await expect(page.locator('.choices__item--selectable.is-selected')).toHaveText('IELTS');
     // await page.waitForTimeout(1000);
-    // await page.fill('#data\\.speaking_score', '7');
+    // await page.locator("#data\\.speaking_score").fill("7");
     // await page.waitForTimeout(1000);
-    // await page.fill('#data\\.reading_score', '7');
+    // await page.locator("#data\\.reading_score").fill("7");
     // await page.waitForTimeout(1000);
-    // await page.fill('#data\\.writing_score', '7');
+    // await page.locator("#data\\.writing_score").fill("7");
     // await page.waitForTimeout(1000);
-    // await page.fill('#data\\.listening_score', '7');
+    // await page.locator("#data\\.listening_score").fill("7");
     // await page.waitForTimeout(1000);
-    // await page.fill('#data\\.average_score', '7');
+    // await page.locator("#data\\.average_score").fill("7");
     // await page.waitForTimeout(1000);
     // await page.locator('button:has-text("Save")').nth(2).click();
     // await page.waitForTimeout(5000);
@@ -144,13 +145,33 @@ test("Student Dashboard", async ({ page }) => {
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
     await page.waitForTimeout(5000);
 
-    await page
-        .locator('input[type="file"]')
-        .setInputFiles('tests/upload/photo.jpg');
-
-
+    await page.locator('input[type="file"]').setInputFiles(
+  path.resolve(process.cwd(), 'tests/advisor/guest/upload/empty.pdf')
+);
+     //const fileInputs = page.locator('input[type="file"]');
+    //  await fileInputs.nth(0).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    //  await fileInputs.nth(1).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    //  await fileInputs.nth(2).setInputFiles('tests/advisor/guest/upload/empty.pdf');
+    //  await fileInputs.nth(3).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    //  await fileInputs.nth(4).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    //  await fileInputs.nth(5).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    //await fileInputs.nth(6).setInputFiles('./upload/empty.pdf');
     await page.locator('button:has-text("Save")').nth(5).click();
     await page.waitForTimeout(5000);
 
+    // // Emergency Contact
+    // await page.click("//button[normalize-space()='Emergency']");
+    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-emergency-tab");
+    // await page.waitForTimeout(5000);
+    // await page.getByRole('textbox', { name: 'Contact name' }).fill('XYZ');
+    // await page.waitForTimeout(2000);
+    // await page.getByRole('textbox', { name: 'Relationship' }).fill('Bro');
+    // await page.waitForTimeout(2000);
+    // await page.getByRole('textbox', { name: 'Telephone number' }).fill('012354789');
+    // await page.waitForTimeout(2000);
+    // await page.getByRole('textbox', { name: 'Email address' }).fill('xyz@gmail.com');
+    // await page.waitForTimeout(2000);
+    // await page.locator('button:has-text("Save")').nth(6).click();
+    // await page.waitForTimeout(5000);
 
 });
