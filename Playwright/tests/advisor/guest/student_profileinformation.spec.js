@@ -145,17 +145,14 @@ test("Student Dashboard", async ({ page }) => {
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
     await page.waitForTimeout(5000);
 
-    await page.locator('input[type="file"]').setInputFiles(
-  path.resolve(process.cwd(), 'tests/advisor/guest/upload/empty.pdf')
-);
-     //const fileInputs = page.locator('input[type="file"]');
+const fileInputs = page.locator('input[type="file"]');
     //  await fileInputs.nth(0).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(1).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(2).setInputFiles('tests/advisor/guest/upload/empty.pdf');
     //  await fileInputs.nth(3).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(4).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(5).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    //await fileInputs.nth(6).setInputFiles('./upload/empty.pdf');
+    await fileInputs.nth(6).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     await page.locator('button:has-text("Save")').nth(5).click();
     await page.waitForTimeout(5000);
 
