@@ -8,7 +8,57 @@ test("Create Student", async ({ page }) => {
 
   
   // Profile Information
-  await page.fill('#data\\.first_name', 'Rabina');
+
+  //await page.locator('div').filter({ hasText: /^Click here to upload image\.\.\.$/ }).click();
+  //await page.getByRole('button', { name: 'Click here to upload image...' }).setInputFiles('4.jpg');
+  await page.getByRole('textbox', { name: 'First name*' }).click();
+  await page.getByRole('textbox', { name: 'First name*' }).fill('Rubi');
+  await page.getByRole('textbox', { name: 'Last name*' }).click();
+  await page.getByRole('textbox', { name: 'Last name*' }).fill('Chalaune');
+  await page.getByRole('textbox', { name: 'Email*' }).click();
+  await page.getByRole('textbox', { name: 'Email*' }).fill('rubichalaune10@gmail.com');
+  await page.getByRole('textbox', { name: 'Mobile number' }).click();
+  await page.getByRole('textbox', { name: 'Mobile number' }).fill('9803387207');
+  await page.getByRole('textbox', { name: 'Date of birth*' }).click();
+  // Date of Birth - Wait for the date picker to be ready
+  await page.waitForSelector('.fi-fo-date-time-picker');
+  
+  // Click the button to open datepicker
+  const dateButton = page.locator('.fi-fo-date-time-picker button[x-ref="button"]');
+  await dateButton.click();
+  
+  // Wait for panel to appear (not hidden)
+  await page.waitForSelector('.fi-fo-date-time-picker-panel:not([x-cloak])', { 
+      state: 'visible',
+      timeout: 10000 
+  });
+  
+  const datepickerPanel = page.locator('.fi-fo-date-time-picker-panel');
+    
+  // Set Year
+  await datepickerPanel.locator('input[type="number"]').fill('2000');
+  await page.waitForTimeout(300); // Small wait for Alpine.js to process
+
+  // Set Month
+  await datepickerPanel.locator('select').selectOption('1');
+  await page.waitForTimeout(300);
+  
+  // Select Day
+  const day = datepickerPanel.locator('div[role="grid"] div').filter({ hasText: /^4$/ }).first();
+  await expect(day).toBeVisible();
+  // Select Gender
+  await page.check('input[type="radio"][value="female"]');
+  
+  // Click Save
+  await page.click('button:has-text("Save")');
+await page.waitForTimeout(5000);
+   
+  
+
+
+
+
+  /*await page.fill('#data\\.first_name', 'Rabina');
   await page.fill('#data\\.last_name', 'Chalaune');
   await page.fill('#data\\.email', 'chmgjgvhchjrr1@gmail.com');
   await page.fill('#data\\.phone', '9812345678');
@@ -51,7 +101,7 @@ await page.waitForTimeout(5000);
   // Address
  await page.goto("https://advisebridge.com/advisor/students/1582/edit?tab=-profile-tab")
   await page.click("text=Address");
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(5000);*/
 
 // Country Dropdown
 
@@ -86,7 +136,7 @@ await page.waitForTimeout(5000);
 
   // Language
 
-    await page.click("text=Language");
+    /*await page.click("text=Language");
 await expect(page).toHaveURL("https://advisebridge.com/advisor/students/1582/edit?tab=-language-tab");
 await page.waitForTimeout(2000);
 
@@ -119,7 +169,7 @@ await page.waitForTimeout(500);
 
 // Click Save button
 await page.locator('button:has-text("Save")').click();
-await page.waitForTimeout(2000);
+await page.waitForTimeout(2000);*/
 
 });
 
