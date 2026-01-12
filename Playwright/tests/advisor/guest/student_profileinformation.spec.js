@@ -17,7 +17,6 @@ test("Student Dashboard", async ({ page }) => {
     // await page.waitForTimeout(2000);
     // await page.locator("#data\\.phone").fill("9744229321");
     // await page.waitForTimeout(2000);
-
     // // await page.locator('#data\\.dob');
     // // await page.locator('input[x-model.debounce="focusedYear"]').fill('2005'); //Year
     // // await page.waitForTimeout(2000);
@@ -25,16 +24,21 @@ test("Student Dashboard", async ({ page }) => {
     // // await page.waitForTimeout(2000);
     // // await page.locator('[role="option"]', { hasText: '15' }).click(); //Day
     // // await page.waitForTimeout(2000);
-
     // await page.locator('input[name="data.gender"][value="female"]').check();
     // await page.waitForTimeout(2000);
     // await page.fill("#data\\.birth_place", "simara");
     // await page.waitForTimeout(2000);
+
+    // await page.locator('button:has-text("Save")').nth(0).click();
+    // const successMsg = page.locator('h3.fi-no-notification-title');
+    // await successMsg.waitFor({ state: 'visible', timeout: 50000 });
+    // await expect(successMsg).toHaveText('Saved Personal Information');
+
     // await page.locator('button:has-text("Save")').nth(0).click();
     // await page.waitForTimeout(5000);
 
 
-    // // Address
+    // Address
     // await page.click("//button[normalize-space()='Address']");
     // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-address-tab");
     // await page.waitForTimeout(3000);
@@ -68,26 +72,27 @@ test("Student Dashboard", async ({ page }) => {
     // await page.waitForTimeout(5000);
 
 
-    // // // Language
-    // await page.click("//button[normalize-space()='Language']");
-    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-language-tab");
-    // await page.waitForTimeout(2000);
-    // await page.locator('.choices__inner').click();
-    // await page.locator('.choices__list .choices__item', { hasText: 'IELTS' }).click();
-    // await expect(page.locator('.choices__item--selectable.is-selected')).toHaveText('IELTS');
-    // await page.waitForTimeout(1000);
-    // await page.locator("#data\\.speaking_score").fill("7");
-    // await page.waitForTimeout(1000);
-    // await page.locator("#data\\.reading_score").fill("7");
-    // await page.waitForTimeout(1000);
-    // await page.locator("#data\\.writing_score").fill("7");
-    // await page.waitForTimeout(1000);
-    // await page.locator("#data\\.listening_score").fill("7");
-    // await page.waitForTimeout(1000);
-    // await page.locator("#data\\.average_score").fill("7");
-    // await page.waitForTimeout(1000);
-    // await page.locator('button:has-text("Save")').nth(2).click();
-    // await page.waitForTimeout(5000);
+    // Language
+    await page.click("//button[normalize-space()='Language']");
+    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-language-tab");
+    await page.waitForTimeout(2000);
+    
+    await page.locator('.choices__inner').click();
+    await page.locator('.choices__list .choices__item', { hasText: 'IELTS' }).click();
+    await expect(page.locator('.choices__item--selectable.is-selected')).toHaveText('IELTS');
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.speaking_score").fill("7");
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.reading_score").fill("7");
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.writing_score").fill("7");
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.listening_score").fill("7");
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.average_score").fill("7");
+    await page.waitForTimeout(1000);
+    await page.locator('button:has-text("Save")').nth(2).click();
+    await page.waitForTimeout(5000);
 
 
     // // GPA & KSE
@@ -97,14 +102,11 @@ test("Student Dashboard", async ({ page }) => {
     // await page.locator('.choices__inner', { has: page.locator('#data\\.gpa_id') }).click();
     // await page.locator('.choices__list--dropdown .choices__item', { hasText: '0-4' }).click();
     // await page.waitForTimeout(2000);
-
     // await page.locator('.choices__inner', { has: page.locator('#data\\.knowledge_skill_exam_id') }).click();
     // await page.locator('.choices__list--dropdown .choices__item', { hasText: 'GRE' }).click();
     // await page.waitForTimeout(2000);
-
     // await page.getByRole('spinbutton', { name: 'Knowledge skill exam score' }).fill('150');
     // await page.waitForTimeout(2000);
-
     // await page.locator('button:has-text("Save")').nth(3).click();
     // await page.waitForTimeout(5000);
 
@@ -141,20 +143,19 @@ test("Student Dashboard", async ({ page }) => {
     // await page.waitForTimeout(5000);
 
     // Document 
-    await page.click("//button[normalize-space()='Documents']");
-    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
-    await page.waitForTimeout(5000);
-
-const fileInputs = page.locator('input[type="file"]');
+    // await page.click("//button[normalize-space()='Documents']");
+    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
+    // await page.waitForTimeout(5000);
+    //const fileInputs = page.locator('input[type="file"]');
     //  await fileInputs.nth(0).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(1).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(2).setInputFiles('tests/advisor/guest/upload/empty.pdf');
     //  await fileInputs.nth(3).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(4).setInputFiles('tests/advisor/guest/upload/photo.jpg');
     //  await fileInputs.nth(5).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(6).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await page.locator('button:has-text("Save")').nth(5).click();
-    await page.waitForTimeout(5000);
+    // await fileInputs.nth(6).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    // await page.locator('button:has-text("Save")').nth(5).click();
+    // await page.waitForTimeout(5000);
 
     // // Emergency Contact
     // await page.click("//button[normalize-space()='Emergency']");
@@ -169,6 +170,14 @@ const fileInputs = page.locator('input[type="file"]');
     // await page.getByRole('textbox', { name: 'Email address' }).fill('xyz@gmail.com');
     // await page.waitForTimeout(2000);
     // await page.locator('button:has-text("Save")').nth(6).click();
+    // await page.waitForTimeout(5000);
+
+    // // Consent
+    // await page.click("//button[normalize-space()='Consent']");
+    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-consent-tab");
+    // await page.waitForTimeout(5000);
+    // await page.getByRole('checkbox', { name: 'Consent Signature' }).check();
+    // await page.locator('button:has-text("Save")').nth(7).click();
     // await page.waitForTimeout(5000);
 
 });
