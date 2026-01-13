@@ -19,42 +19,62 @@ test("Create Student", async ({ page }) => {
   await page.getByRole('textbox', { name: 'Email*' }).fill('rubichalaune10@gmail.com');
   await page.getByRole('textbox', { name: 'Mobile number' }).click();
   await page.getByRole('textbox', { name: 'Mobile number' }).fill('9803387207');
-  await page.getByRole('textbox', { name: 'Date of birth*' }).click();
-  // Date of Birth - Wait for the date picker to be ready
-  await page.waitForSelector('.fi-fo-date-time-picker');
-  
-  // Click the button to open datepicker
-  const dateButton = page.locator('.fi-fo-date-time-picker button[x-ref="button"]');
-  await dateButton.click();
-  
-  // Wait for panel to appear (not hidden)
-  await page.waitForSelector('.fi-fo-date-time-picker-panel:not([x-cloak])', { 
-      state: 'visible',
-      timeout: 10000 
-  });
-  
-  const datepickerPanel = page.locator('.fi-fo-date-time-picker-panel');
-    
-  // Set Year
-  await datepickerPanel.locator('input[type="number"]').fill('2000');
-  await page.waitForTimeout(300); // Small wait for Alpine.js to process
-
-  // Set Month
-  await datepickerPanel.locator('select').selectOption('1');
-  await page.waitForTimeout(300);
-  
-  // Select Day
-  const day = datepickerPanel.locator('div[role="grid"] div').filter({ hasText: /^4$/ }).first();
-  await expect(day).toBeVisible();
-  // Select Gender
-  await page.check('input[type="radio"][value="female"]');
-  
-  // Click Save
-  await page.click('button:has-text("Save")');
-await page.waitForTimeout(5000);
-   
+  //await page.getByRole('textbox', { name: 'Date of birth*' }).click();
+  //await page.getByRole('spinbutton').fill('26');
+  //await page.getByRole('spinbutton').fill('2001');
+  //await page.getByRole('combobox').selectOption('9');
+  //await page.getByRole('option', { name: '3', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Birth place' }).click();
+  await page.getByRole('textbox', { name: 'Birth place' }).fill('bardiya');
+  await page.getByRole('radio', { name: 'Female' }).check();
+  await page.getByRole('button', { name: 'Save' }).click();
   
 
+  // Address
+ await page.goto("https://advisebridge.com/advisor/students/1582/edit?tab=-profile-tab")
+  await page.click("text=Address");
+  await page.waitForTimeout(5000);
+
+// Country Dropdown
+
+await page.getByRole('tab', { name: 'Address' }).click();
+  // Select Country
+await page.locator('div').filter({ hasText: /^Select Country$/ }).first().click();
+await page.getByRole('textbox', { name: 'Select Country' }).fill('Nepal');
+await page.waitForSelector('text=Nepal').click();
+await page.getByText('Nepal', { exact: true }).click();
+
+// Select State
+await page.getByText('Select State').click();
+await page.waitForSelector('text=Lumbini');
+await page.getByText('Lumbini', { exact: true }).click();
+  await page.locator('div').filter({ hasText: /^Select City$/ }).first().click();
+  await page.getByRole('option', { name: 'Bardiya' }).click();
+  await page.getByRole('textbox', { name: 'Street' }).click();
+  await page.getByRole('textbox', { name: 'Street' }).fill('00987');
+  await page.getByRole('textbox', { name: 'Zip code' }).click();
+  await page.getByRole('textbox', { name: 'Zip code' }).fill('20987');
+  await page.getByRole('button', { name: 'Save' }).click();
+
+
+  /*await page.getByRole('tab', { name: 'Address' }).click();
+  // Select Country
+await page.locator('div').filter({ hasText: /^Select Country$/ }).first().click();
+await page.getByRole('textbox', { name: 'Select Country' }).fill('Nepal');
+await page.waitForSelector('text=Nepal');
+await page.getByText('Nepal', { exact: true }).click();
+
+// Select State
+await page.getByText('Select State').click();
+await page.waitForSelector('text=Lumbini');
+await page.getByText('Lumbini', { exact: true }).click();
+  await page.locator('div').filter({ hasText: /^Select City$/ }).first().click();
+  await page.getByRole('option', { name: 'Bardiya' }).click();
+  await page.getByRole('textbox', { name: 'Street' }).click();
+  await page.getByRole('textbox', { name: 'Street' }).fill('00987');
+  await page.getByRole('textbox', { name: 'Zip code' }).click();
+  await page.getByRole('textbox', { name: 'Zip code' }).fill('20987');
+  await page.getByRole('button', { name: 'Save' }).click();*/
 
 
 
@@ -172,4 +192,3 @@ await page.locator('button:has-text("Save")').click();
 await page.waitForTimeout(2000);*/
 
 });
-
