@@ -15,7 +15,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
-
+  
   use: {
     // 👇 Set default base URL
     baseURL: "https://advisebridge.com",
