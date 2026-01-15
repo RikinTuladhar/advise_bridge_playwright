@@ -5,36 +5,44 @@ import path from 'path';
 test("Student Dashboard", async ({ page }) => {
 
     await login(page);
-    const successMsg = page.locator('h3.fi-no-notification-title');
+    const successMsg = page.locator('h3.fi-no-notification-title'); // Success Message
     await page.click("text=Profile Information");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-profile-tab");
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1000);
 
-    /* ---Profile Information--- [Date Incomplete]*/
-    // await page.locator("#data\\.first_name").fill("Mamata"); // Enter First Name
-    // await page.waitForTimeout(2000);
-    // await page.locator("#data\\.last_name").fill("Khanal");  // Enter Last Name
-    // await page.waitForTimeout(2000);
-    // await page.locator("#data\\.phone").fill("9744229321"); // Enter Mobile Number
-    // await page.waitForTimeout(2000);
-    // // await page.locator('#data\\.dob');
-    // // await page.locator('input[x-model.debounce="focusedYear"]').fill('2005'); //Year
-    // // await page.waitForTimeout(2000);
-    // // await page.locator('select[x-model="focusedMonth"]').selectOption('5');  //Month
-    // // await page.waitForTimeout(2000);
-    // // await page.locator('[role="option"]', { hasText: '15' }).click(); //Day
-    // // await page.waitForTimeout(2000);
-    // await page.locator('input[name="data.gender"][value="male"]').check();
-    // await page.waitForTimeout(2000);
-    // await page.locator('input[name="data.gender"][value="female"]').check();
-    // await page.waitForTimeout(2000);
-    // await page.fill("#data\\.birth_place", "Simara");  // Enter Birth Place 
-    // await page.waitForTimeout(2000);
-    // // Save Button & Verify Success Message 
-    // await page.locator('button:has-text("Save")').nth(0).click();
-    // await successMsg.waitFor({ state: 'visible', timeout: 50000 });
-    // await expect(successMsg).toHaveText('Saved Personal Information');
-    // await page.waitForTimeout(3000);
+    /* ---Profile Information--- */
+    // Upload Profile 
+    // await page
+    //     .locator('label:has-text("Click here to upload image...")').
+    //     setInputFiles('Playwright/tests/advisor/guest/upload/profile.jpg');
+    await page.waitForTimeout(1000);
+    await page.locator("#data\\.first_name").fill("Mamata");
+    await page.waitForTimeout(2000);
+    await page.locator("#data\\.last_name").fill("khanal");
+    await page.waitForTimeout(2000);
+    await page.locator("#data\\.phone").fill("9744558236");
+    await page.waitForTimeout(2000);
+    // DOB
+    await page.locator('#data\\.dob').click();
+    const calendar = page.locator('.fi-fo-date-time-picker');
+    await calendar.getByRole('spinbutton').fill('2001');
+    await page.waitForTimeout(2000);
+    await calendar.locator('select[x-model="focusedMonth"]:visible').selectOption({ label: 'June' });
+    await page.waitForTimeout(2000);
+    await calendar.locator('[role="option"]', { hasText: '12' }).click();
+    await page.waitForTimeout(2000);
+    // Choose Gender 
+    await page.locator('input[name="data.gender"][value="male"]').check();
+    await page.waitForTimeout(1000);
+    await page.locator('input[name="data.gender"][value="female"]').check();
+    await page.waitForTimeout(2000);
+    await page.fill("#data\\.birth_place", "Simara");
+    await page.waitForTimeout(2000);
+    // Save Button & Verify Success Message 
+    await page.locator('button:has-text("Save")').nth(0).click();
+    await successMsg.waitFor({ state: 'visible', timeout: 50000 });
+    await expect(successMsg).toHaveText('Saved Personal Information');
+    await page.waitForTimeout(3000);
 
 
     /* ---Address--- [Complete] */
@@ -75,12 +83,12 @@ test("Student Dashboard", async ({ page }) => {
     await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
     await page.locator('button:has-text("Save")').nth(1).click();
-    await successMsg.waitFor({ state: 'visible', timeout: 50000 });
+    await successMsg.waitFor({ state: 'visible'});
     await expect(successMsg).toHaveText('Saved Address Information');
     await page.waitForTimeout(3000);
 
 
-    /* ---Language--- [ Date Incomplete] */
+    /* ---Language--- [Complete] */
     await page.click("//button[normalize-space()='Language']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-language-tab");
     await page.waitForTimeout(2000);
@@ -98,55 +106,63 @@ test("Student Dashboard", async ({ page }) => {
     await expect(page.locator('.choices__inner .choices__item--selectable').nth(3)).toContainText('Pearson');
     await page.waitForTimeout(1000);
     // Enter Score
-    await page.locator("#data\\.speaking_score").fill("65");
+    await page.locator("#data\\.speaking_score").fill("55");
     await page.waitForTimeout(1000);
-    await page.locator("#data\\.reading_score").fill("50");
+    await page.locator("#data\\.reading_score").fill("55");
     await page.waitForTimeout(1000);
-    await page.locator("#data\\.writing_score").fill("50");
+    await page.locator("#data\\.writing_score").fill("59");
     await page.waitForTimeout(1000);
-    await page.locator("#data\\.listening_score").fill("75");
+    await page.locator("#data\\.listening_score").fill("56");
     await page.waitForTimeout(1000);
-    await page.locator("#data\\.average_score").fill("80");
+    await page.locator("#data\\.average_score").fill("75");
     await page.waitForTimeout(1000);
     // Exam Date
+    await page.locator('#data\\.exam_date').click();
+    const date = page.locator('.fi-fo-date-time-picker-panel');
+    await date.getByRole('spinbutton').fill('2005');
+    await page.waitForTimeout(2000);
+    await date.locator('select[x-model="focusedMonth"]:visible').selectOption({ label: 'July' });
+    await page.waitForTimeout(2000);
+    await date.locator('[role="option"]:visible', { hasText: '27' }).click();
+    await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
-  //  await page.locator('button:has-text("Save")').nth(2).click();
-    //await successMsg.waitFor({ state: 'visible', timeout: 50000 });
-    //await expect(successMsg).toHaveText('Saved Lingual Information');
-    //await page.waitForTimeout(3000);
+     await page.locator('button:has-text("Save")').nth(2).click();
+    await successMsg.waitFor({ state: 'visible'});
+    await expect(successMsg).toHaveText('Saved Lingual Information');
+    await page.waitForTimeout(3000);
 
 
     /* ---GPA & KSE--- [Complete]*/
-    // await page.click("//button[normalize-space()='GPA & KSE']");
-    // await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-gpa-kse-tab");
-    // await page.waitForTimeout(2000);
-    // // GPA Scale
-    // await page.locator('.choices__inner', { has: page.locator('#data\\.gpa_id') }).click();
-    // await page.locator('.choices__list--dropdown .choices__item', { hasText: '0-4' }).click();
-    // await page.waitForTimeout(2000);
-    // // GPA Score
-    // await page.locator('.choices__inner',{ has: page.locator('#data\\.gpa_score_id') }).click();
-    // const gpaSearch = page.getByRole('textbox', { name: 'Select GPA Score' });
-    // await page.waitForTimeout(1000);
-    // await gpaSearch.type('2.5');
-    // await page.waitForTimeout(1000);
-    // await gpaSearch.press('Enter');
-    // await page.waitForTimeout(1000);
-    // // KSE
-    // await page.locator('.choices__inner', { has: page.locator('#data\\.knowledge_skill_exam_id') }).click();
-    // await page.locator('.choices__list--dropdown .choices__item', { hasText: 'GRE' }).click();
-    // await page.waitForTimeout(2000);
-    // // KSE Score
-    // await page.getByRole('spinbutton', { name: 'Knowledge skill exam score' }).fill('350');
-    // await page.waitForTimeout(2000);
-    // // Save Button & Verify Success Message 
-    // await page.locator('button:has-text("Save")').nth(3).click();
-    // await successMsg.waitFor({ state: 'visible', timeout: 50000 });
-    // await expect(successMsg).toHaveText('Saved GPA & KSE Score Information');
-    // await page.waitForTimeout(3000);
+    await page.click("//button[normalize-space()='GPA & KSE']");
+    await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-gpa-kse-tab");
+    await page.waitForTimeout(2000);
+    // GPA Scale
+    await page.locator('.choices__inner', { has: page.locator('#data\\.gpa_id') }).click();
+    await page.locator('.choices__list--dropdown .choices__item', { hasText: '0-4' }).click();
+    await page.waitForTimeout(2000);
+    // GPA Score
+    await page.locator('.choices__inner',{ has: page.locator('#data\\.gpa_score_id') }).click();
+    const gpaSearch = page.getByRole('textbox', { name: 'Select GPA Score' });
+    await page.waitForTimeout(1000);
+    await gpaSearch.type('2.5');
+    await page.waitForTimeout(1000);
+    await gpaSearch.press('Enter');
+    await page.waitForTimeout(1000);
+    // KSE
+    await page.locator('.choices__inner', { has: page.locator('#data\\.knowledge_skill_exam_id') }).click();
+    await page.locator('.choices__list--dropdown .choices__item', { hasText: 'GRE' }).click();
+    await page.waitForTimeout(2000);
+    // KSE Score
+    await page.getByRole('spinbutton', { name: 'Knowledge skill exam score' }).fill('350');
+    await page.waitForTimeout(2000);
+    // Save Button & Verify Success Message 
+    await page.locator('button:has-text("Save")').nth(3).click();
+    await successMsg.waitFor({ state: 'visible'});
+    await expect(successMsg).toHaveText('Saved GPA & KSE Score Information');
+    await page.waitForTimeout(3000);
 
 
-    /* ---Academics--- */
+    /* ---Academics--- [Complete] */
     await page.click("//button[normalize-space()='Academics']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-academics-tab");
     await page.waitForTimeout(5000);
@@ -184,10 +200,11 @@ test("Student Dashboard", async ({ page }) => {
     await page.getByRole('textbox', { name: 'Zip code' }).fill('04461');
     await page.waitForTimeout(2000);
     await page.locator('.choices__list--single').nth(7).click();
+    await page.waitForTimeout(1000);
     await page.getByRole('option', { name: "Bachelor's Degree" }).click();
     await page.waitForTimeout(2000);
     await page.locator('.choices__list--single').nth(8).click();
-    await page.getByRole('option', { name: "2025" }).click();
+    await page.getByRole('option', { name: "2020" }).click();
     await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
     await page.locator('button:has-text("Save")').nth(4).click();
@@ -196,35 +213,45 @@ test("Student Dashboard", async ({ page }) => {
     await page.waitForTimeout(3000);
 
 
-    /* ---Document--- [Error] */
+    /* ---Document--- [Complete] */
     await page.click("//button[normalize-space()='Documents']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-documents-tab");
     await page.waitForTimeout(5000);
     const fileInputs = page.locator('input[type="file"]');
-    await fileInputs.nth(0).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(1).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(2).setInputFiles('tests/advisor/guest/upload/empty.pdf');
-    await fileInputs.nth(3).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(4).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(5).setInputFiles('tests/advisor/guest/upload/photo.jpg');
-    await fileInputs.nth(6).setInputFiles('tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(0).setInputFiles('Playwright/tests/advisor/guest/upload/Empty.pdf');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(1).setInputFiles('Playwright/tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(2000);
+    await fileInputs.nth(2).setInputFiles('Playwright/tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(3).setInputFiles('Playwright/tests/advisor/guest/upload/Empty.pdf');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(4).setInputFiles('Playwright/tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(5).setInputFiles('Playwright/tests/advisor/guest/upload/Empty.pdf');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(6).setInputFiles('Playwright/tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(1000);
+    await fileInputs.nth(7).setInputFiles('Playwright/tests/advisor/guest/upload/photo.jpg');
+    await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
     await page.locator('button:has-text("Save")').nth(5).click();
-    await successMsg.waitFor({ state: 'visible', timeout: 50000 });
-    await expect(successMsg).toHaveText('Saved Document Information');
+    await successMsg.waitFor({ state: 'visible' });
+    await expect(successMsg).toHaveText('Saved Documents ');
     await page.waitForTimeout(3000);
 
     /* ---Emergency Contact--- [Complete] */
     await page.click("//button[normalize-space()='Emergency']");
     await expect(page).toHaveURL("https://www.advisebridge.com/student/students/1478?tab=-emergency-tab");
     await page.waitForTimeout(5000);
-    await page.getByRole('textbox', { name: 'Contact name' }).fill('XYZ');
+    await page.getByRole('textbox', { name: 'Contact name' }).fill('ABCDEFG');
     await page.waitForTimeout(2000);
-    await page.getByRole('textbox', { name: 'Relationship' }).fill('Bro');
+    await page.getByRole('textbox', { name: 'Relationship' }).fill('Brother');
     await page.waitForTimeout(2000);
     await page.getByRole('textbox', { name: 'Telephone number' }).fill('012354789');
     await page.waitForTimeout(2000);
-    await page.getByRole('textbox', { name: 'Email address' }).fill('xyz@gmail.com');
+    await page.getByRole('textbox', { name: 'Email address' }).fill('abc@gmail.com');
     await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
     await page.locator('button:has-text("Save")').nth(6).click();
