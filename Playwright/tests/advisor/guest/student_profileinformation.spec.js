@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { login } from "./helper/stu_login.js";
-import path from 'path';
 
-test("Student Dashboard", async ({ page }) => {
+test("Student Profile Information", async ({ page }) => {
 
     await login(page);
     const successMsg = page.locator('h3.fi-no-notification-title'); // Success Message
@@ -182,7 +181,7 @@ test("Student Dashboard", async ({ page }) => {
     // Open State dropdown
     await page.locator('.choices__inner').nth(5).click();
     const searchState = page.getByRole('textbox', { name: 'Select State' });
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2000);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ````````    
     await searchState.type('Madhesh');
     await page.waitForTimeout(3000);
     await searchState.press('Enter');
@@ -240,6 +239,7 @@ test("Student Dashboard", async ({ page }) => {
     await successMsg.waitFor({ state: 'visible' });
     await expect(successMsg).toHaveText('Saved Documents ');
     await page.waitForTimeout(3000);
+
 
     /* ---Emergency Contact--- [Complete] */
     await page.click("//button[normalize-space()='Emergency']");
