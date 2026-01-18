@@ -125,7 +125,7 @@ test("Student Profile Information", async ({ page }) => {
     await date.locator('[role="option"]:visible', { hasText: '27' }).click();
     await page.waitForTimeout(2000);
     // Save Button & Verify Success Message 
-     await page.locator('button:has-text("Save")').nth(2).click();
+    await page.locator('button:has-text("Save")').nth(2).click();
     await successMsg.waitFor({ state: 'visible'});
     await expect(successMsg).toHaveText('Saved Lingual Information');
     await page.waitForTimeout(3000);
