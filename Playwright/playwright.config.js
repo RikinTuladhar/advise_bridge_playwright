@@ -18,7 +18,11 @@ export default defineConfig({
   
   use: {
     // 👇 Set default base URL
-    baseURL: "https://advisebridge.com",
+    baseURL: "https://staging.advisebridge.com",
+    httpCredentials: {
+      username: 'advisebridge',
+      password: 'advisebridge',
+    },
     trace: "on-first-retry",
   },
 
