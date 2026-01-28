@@ -248,6 +248,8 @@ test('Log in and click Update institution profile', async ({ page }) => {
   await page.getByLabel('Remember me').check();
   await page.getByRole('button', { name: 'Sign in' }).click();
 
+  
+
   // Step 5: Wait for dashboard URL
   await expect(page).toHaveURL('https://staging.advisebridge.com/institution');
 
@@ -257,10 +259,25 @@ test('Log in and click Update institution profile', async ({ page }) => {
   // ✅ Step 7: Fill profile fields 
   await page.getByLabel('Video URL', { exact: true }).fill('https://youtube.com/shorts/7UNQ9lHESdQ?si=On2nNcX8e-sga55c');
   await page.getByLabel('Application Portal URL', { exact: true }).fill('https://qa.portal.internal/apply/session/9d21e7');
-  await page.getByLabel('Total Students', { exact: true }).fill('12000'); 
+  await page.getByLabel('Total Students', { exact: true }).fill('12000');
   await page.getByLabel('International Students', { exact: true }).fill('4000');
-  await page.getByLabel('Funding Type*', { exact: true }).selectOption({ label: 'Private' }); 
-  await page.getByLabel('Institution Type*', { exact: true }).selectOption({ label: 'University' });
+  await page.getByText("Select Funding Type").click();
+  await page.getByRole("option", { name: "Private" }).click();
+
+  await page.getByText("Select Institution Type").click();
+  await page.getByRole("option", { name: "University" }).click();
+
+  // Established Year dropdown
+  await page.getByText("Select Year").click();
+  await page.getByRole("option", { name: "1977" }).click();
+  await page.getByRole('textbox', { name: 'Notes' }).fill(
+    'This institution has consistently demonstrated a commitment to academic excellence and global engagement. With a diverse student body and strong private funding, it continues to expand research initiatives and foster innovation across disciplines.'
+  );
+
+
+
+
+
 
   await page.pause();
 
