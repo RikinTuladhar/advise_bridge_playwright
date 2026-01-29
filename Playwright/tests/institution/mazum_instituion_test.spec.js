@@ -248,10 +248,12 @@ test('Log in and click Update institution profile', async ({ page }) => {
   await page.getByLabel('Remember me').check();
   await page.getByRole('button', { name: 'Sign in' }).click();
 
-  
+
 
   // Step 5: Wait for dashboard URL
   await expect(page).toHaveURL('https://staging.advisebridge.com/institution');
+
+
 
   // Step 6: Wait for the button to appear
   await page.getByText('Update institution profile').click();
@@ -274,8 +276,25 @@ test('Log in and click Update institution profile', async ({ page }) => {
     'This institution has consistently demonstrated a commitment to academic excellence and global engagement. With a diverse student body and strong private funding, it continues to expand research initiatives and foster innovation across disciplines.'
   );
 
+  await page.locator('input[type="file"]').first().setInputFiles('Playwright/tests/institution/dp.jpg');
 
+  // Logo
+  await page.locator('//div[@id="data.logo"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
 
+  // Thumbnail
+  await page.locator('//div[@id="data.thumbnail"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+
+  // Cover
+  await page.locator('//div[@id="data.cover"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+
+  // Extra images (grid layout)
+  await page.locator('//div[@data-style-panel-layout="grid"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+
+  // Extra images (grid layout)
+  await page.locator('//div[@data-style-panel-layout="grid"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+
+  // Additional images (drag & drop area)
+  
 
 
 
