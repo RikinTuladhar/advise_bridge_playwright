@@ -6,13 +6,7 @@ import { expect } from "@playwright/test";
  * @param {string} email
  */
 
-export async function adminLogin(page, email, password) {
-  await page.goto("/admin");
-  await page.getByRole("textbox", { name: "Email address*" }).fill(email);
-  await page.getByRole("textbox", { name: "Password*" }).fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
-  await page.waitForURL("/admin");
-}
+
 
 export async function impersonateAdvisor(page, email) {
   // Step 1: Login

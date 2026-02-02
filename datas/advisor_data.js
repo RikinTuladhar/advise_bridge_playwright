@@ -10,6 +10,12 @@ export const advisor_details = {
 
 }
 
+export const advisor_student_delete = {
+    company_name : "Testing Automation",
+    email:"delete_test_advisor_3@gmail.com",
+    password:"Delete123!"
+}
+
 export const advisor_creation_from_admin = {
     login_details: {
         email: "senyadt2@gmail.com",
