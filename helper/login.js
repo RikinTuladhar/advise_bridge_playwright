@@ -37,6 +37,13 @@ export async function agentLogin(page) {
   await page.waitForURL("/advisor");
 }
 
+export async function adminLogin(page, email, password) {
+  await page.goto("/admin");
+  await page.getByRole("textbox", { name: "Email address*" }).fill(email);
+  await page.getByRole("textbox", { name: "Password*" }).fill(password);
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.waitForURL("/admin");
+}
 
 // import { test, expect } from "@playwright/test";
 // import { StudentLoginPage } from "../pages/loginpage";
