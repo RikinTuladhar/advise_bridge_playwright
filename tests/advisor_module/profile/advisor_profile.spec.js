@@ -1,11 +1,11 @@
 import { test } from "@playwright/test";
 import { advisor_details } from "../../../datas/advisor_data.js";
-import { login } from "../../../helper/advisor_login.js";
+import { advisorLogin, login } from "../../../helper/login.js";
 
 
 test("Advisor company details page", async ({ page }) => {
   const data = advisor_details;
-  await login(page);
+  await advisorLogin(page);
   await page.goto("/advisor");
 
   await page.getByRole("link", { name: "Company Details" }).click();

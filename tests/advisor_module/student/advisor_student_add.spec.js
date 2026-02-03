@@ -1,13 +1,10 @@
 import { test } from "@playwright/test";
-import { login } from "../../../helper/advisor_login";
-
-
+import login, { advisorLogin } from "../../../helper/login.js";
 
 test("Create Student", async ({ page }) => {
-  await login(page);
+  await advisorLogin(page);
   await page.goto('/advisor/students');
   await page.click("text=New Student");
-
 
   // Profile Information
 
@@ -128,6 +125,7 @@ test("Create Student", async ({ page }) => {
   await page.getByRole('option', { name: '2025' }).click();
   await page.getByRole('button', { name: 'Save' }).click();
 
+  
   await page.getByRole('tab', { name: 'Documents Incomplete' }).click();
   await page.goto('/students/1589/edit?tab=-documents-tab');
   await page.getByRole('button', { name: 'Drag & Drop or Click Here .' }).first().click();

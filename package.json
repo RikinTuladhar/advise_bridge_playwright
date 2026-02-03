@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
+    "@playwright/test": "^1.58.1",
     "@types/node": "^24.7.2"
   },
   "scripts": {},
