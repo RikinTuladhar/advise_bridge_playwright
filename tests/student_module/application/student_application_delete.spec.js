@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { login } from "./helper/stu_login.js";
+import { studentLogin } from "../../../helper/login.js";
 
 test("Student Application Delete ", async ({ page }) => {
-  await login(page);
+  await studentLogin(page);
   await page.waitForTimeout(1000);
   await page.getByRole("link", { name: "Applications" }).click();
   await expect(page).toHaveURL("https://www.advisebridge.com/student/applications");

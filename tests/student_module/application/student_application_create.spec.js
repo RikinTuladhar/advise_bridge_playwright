@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { login } from "./helper/stu_login.js";
+import { studentLogin } from "../../../helper/login.js";
 
 test("Student Apply Now", async ({ page }) => {
-  await login(page);
+  await studentLogin(page);
   await page.waitForTimeout(1000);
   // Open New Page
   const popup = page.waitForEvent("popup");

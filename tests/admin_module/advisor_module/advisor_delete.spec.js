@@ -39,8 +39,13 @@ test("Admin Advisor Delete", async ({ page }) => {
   await page.waitForResponse((resp) => resp.url().includes("/livewire/update") && resp.status() === 200, {
     timeout: 15000,
   });
-  // await expect(row).toBeHidden({ timeout: 10000 });
   await page.getByRole("link", { name: "Archived Advisors" }).click();
-  await page.getByRole("button").nth(3).click();
-  console.log("✅Deleted successfully");
+  await page.waitForURL("/admin/advisors/archive");
+  await page.waitForTimeout(5000);
+  await page
+    .locator("tbody tr")
+    .filter({ hasText: email })
+    .getByRole("button")
+    .nth(1)
+    .click();
 });
