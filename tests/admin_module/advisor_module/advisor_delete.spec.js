@@ -40,6 +40,7 @@ test("Admin Advisor Delete", async ({ page }) => {
     timeout: 15000,
   });
   await page.getByRole("link", { name: "Archived Advisors" }).click();
+<<<<<<< Updated upstream
   await page.waitForURL("/admin/advisors/archive");
   await page.waitForTimeout(5000);
   await page
@@ -48,4 +49,12 @@ test("Admin Advisor Delete", async ({ page }) => {
     .getByRole("button")
     .nth(1)
     .click();
+=======
+  const archive_table = await page.locator("tr").filter({hasText:"delete_test_advisor_3@gmail.com"});
+  await archive_table.click("button.fi-color-danger[wire\\:click*='delete_permanently']");
+
+  await page.waitForTimeout(3000);
+
+  console.log("✅Deleted successfully");
+>>>>>>> Stashed changes
 });
