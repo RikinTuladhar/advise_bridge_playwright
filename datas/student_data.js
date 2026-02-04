@@ -1,11 +1,24 @@
-export const student_details = {
-    first_name: "Rabina",
-    last_name: "Chalaune",
-    email: "chalaunrrabina@gmail.com",
+// Register Data for Student 
+export const student_validregister = {
+    firstname: "Advise",
+    lastname: "Intern",
+    email: "teamadvisebridge@gmail.com",
+    password: "Teamadvisebridge@00",
+    confirmpassword: "Teamadvisebridge@00",
 }
 
-export const student_advisor_create = {
-    first_name: "Rabina",
-    last_name: "Chalaune",
-    email: "qweqw@gmail.com",
+// Login Data for Student
+export const student_blankfields = {
+    email: "",
+    password: "",
+}
+
+export const student_invalidlogin = {
+    email: "teamadvisebridgegmail.com",
+    password: "teamadvisebridge@00",
+}
+
+export const student_validlogin = {
+    email: "teamadvisebridge@gmail.com",
+    password: "Teamadvisebridge@00",
 }
