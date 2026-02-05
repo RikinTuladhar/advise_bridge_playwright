@@ -10,7 +10,7 @@ test("Advisor company details page", async ({ page }) => {
 
   await page.getByRole("link", { name: "Company Details" }).click();
   /*await page.locator('div').filter({hasText: /^Click here to upload image\.\.\.$/ }).click();
-await page.getByRole('button', { name: 'Click here to upload image...' }).setInputFiles('13.jpg');*/
+  await page.getByRole('button', { name: 'Click here to upload image...' }).setInputFiles('13.jpg');*/
 
   await page.getByRole("textbox", { name: "Company name*" }).click();
   await page.getByRole("textbox", { name: "Company name*" }).fill("esewa");
@@ -33,7 +33,9 @@ await page.getByRole('button', { name: 'Click here to upload image...' }).setInp
   await page.getByRole("button", { name: "Save & continue" }).click();
 
   //contact details
+   
   await page.getByRole("textbox", { name: "Contact person*" }).click();
+  await page.goto('https://staging.advisebridge.com/advisor/contact-details');
   await page.getByRole("textbox", { name: "Contact person*" }).fill("Rabina Chalaune");
   await page.getByRole("textbox", { name: "Contact email*" }).click();
   await page.getByRole("textbox", { name: "Contact email*" }).fill("chalaunrrabina@gmail.com");
@@ -42,6 +44,7 @@ await page.getByRole('button', { name: 'Click here to upload image...' }).setInp
   await page.getByRole("button", { name: "Save & continue" }).click();
   //Bank details
   await page.getByRole("textbox", { name: "Bank name*" }).click();
+  await page.goto('https://staging.advisebridge.com/advisor/bank-details');
   await page.getByRole("textbox", { name: "Bank name*" }).fill("Global bank Ltd.");
   await page.getByRole("textbox", { name: "Bank branch*" }).click();
   await page.getByRole("textbox", { name: "Bank branch*" }).fill("Kamalpokhari");
