@@ -33,7 +33,7 @@ test("Student Profile Information", async ({ page }) => {
   await page.fill("#data\\.birth_place", student_data.profile.birthPlace);
   await page.waitForTimeout(1000);
   await page.locator('button:has-text("Save")').nth(0).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
 
   /* ---Address--- */
@@ -65,7 +65,7 @@ test("Student Profile Information", async ({ page }) => {
   await page.locator("#data\\.zip_code").fill(student_data.address.zipCode);
   await page.waitForTimeout(1000);
   await page.locator('button:has-text("Save")').nth(1).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
 
   /* ---Language--- */
@@ -101,7 +101,7 @@ test("Student Profile Information", async ({ page }) => {
   await examdate.locator('[role="option"]:visible', { hasText: student_data.language.examDate.day }).first().click();
   await page.waitForTimeout(1000);
   await page.locator('button:has-text("Save")').nth(2).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
 
   /* ---GPA & KSE--- */
@@ -127,7 +127,7 @@ test("Student Profile Information", async ({ page }) => {
   await page.getByRole("spinbutton", { name: "Knowledge skill exam score" }).fill(student_data.gpa.ksescore);
   await page.waitForTimeout(1000);
   await page.locator('button:has-text("Save")').nth(3).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
   /* ---Academics--- */
   await page.locator('button[role="tab"]', { hasText: "Academics" }).click();
@@ -137,7 +137,7 @@ test("Student Profile Information", async ({ page }) => {
   await page.getByRole("textbox", { name: "Institution name*" }).fill(student_data.academic.institutionname);
   await page.waitForTimeout(1000);
   await page.getByRole("textbox", { name: "Street" }).fill(student_data.academic.street);
-  await page.waitForTimeout(3000);
+  //await page.waitForTimeout(3000);
   // Open Country dropdown
   await page.locator(".choices__inner").nth(7).click();
   const searchCountry = page.getByRole("textbox", { name: "Select Country" });
@@ -171,12 +171,12 @@ test("Student Profile Information", async ({ page }) => {
   await page.locator(".choices__list--single").nth(11).click();
   await page.getByRole("option", { name: "2020" }).click();
   await page.locator('button:has-text("Save")').nth(4).click();
-  await page.waitForTimeout(4000);
+  // await page.waitForTimeout(3000);
 
   /* ---Document--- */
   await page.locator('button[role="tab"]', { hasText: "Documents" }).click();
   await expect(page).toHaveURL("/student/students/1604?tab=-documents-tab");
-  await page.waitForTimeout(2000);
+  // await page.waitForTimeout(2000);
   const fileInputs = page.locator('input[type="file"]');
   await fileInputs.nth(0).setInputFiles(student_data.documents.passport);
   await fileInputs.nth(1).setInputFiles(student_data.documents.englanguage);
@@ -187,7 +187,7 @@ test("Student Profile Information", async ({ page }) => {
   await fileInputs.nth(6).setInputFiles(student_data.documents.otherdocuments);
   await page.waitForTimeout(2000);
   await page.locator('button:has-text("Save")').nth(5).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
   /* ---Emergency Contact--- */
   await page.locator('button[role="tab"]', { hasText: "Emergency" }).click();
@@ -199,7 +199,7 @@ test("Student Profile Information", async ({ page }) => {
   await page.getByRole("textbox", { name: "Telephone number" }).fill(student_data.emergencyContact.telephone);
   await page.getByRole("textbox", { name: "Email address" }).fill(student_data.emergencyContact.email);
   await page.locator('button:has-text("Save")').nth(6).click();
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(3000);
 
   /* ---Consent--- */
   await page.locator('button[role="tab"]', { hasText: "Consent" }).click();
@@ -212,5 +212,4 @@ test("Student Profile Information", async ({ page }) => {
   await page.locator("#data\\.consent_signature").check();
   await expect(page.locator("#data\\.consent_signature")).toBeChecked();
   await page.locator('button:has-text("Save")').nth(7).click();
-  await page.waitForTimeout(4000);
 });
