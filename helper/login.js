@@ -3,8 +3,8 @@ import { institutionData } from "../datas/institution_data";
 export async function institutionLogin(page) {
   const insitution_data = institutionData;
   await page.goto("/institution/login");
-  await page.getByRole("textbox", { name: "Email address*" }).fill(insitution_data.email);
-  await page.getByRole("textbox", { name: "Password*" }).fill(insitution_data.password);
+  await page.getByRole("textbox", { name: "Email address*" }).fill('teamadvisebridge@gmail.com');
+  await page.getByRole("textbox", { name: "Password*" }).fill('Teamadvisebridge00#');
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 

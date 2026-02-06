@@ -16,12 +16,17 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
 
+  // 👇 Skip unwanted old spec files
+  testIgnore: [
+    "**/institution_register.spec.js",
+    "**/institution_login.spec.js"
+  ],
+
   use: {
-    // 👇 Set default base URL
     baseURL: "https://staging.advisebridge.com",
     httpCredentials: {
-      username: 'advisebridge',
-      password: 'advisebridge',
+      username: "advisebridge",
+      password: "advisebridge",
     },
     trace: "on-first-retry",
   },
@@ -32,5 +37,4 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-
 });

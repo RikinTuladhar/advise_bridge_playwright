@@ -1,264 +1,22 @@
-// // // import { test, expect } from "@playwright/test";
-
-// // // test("Institution Login Test - Fill Only", async ({ page }) => {
-// // //   // Step 1: Go to the login page
-// // //   await page.goto("/institution/login");
-
-// // //   // Step 2: Wait for the email field to appear
-// // //   await page.waitForSelector('input[placeholder="Email address"]');
-
-// // //   // Step 3: Fill in the email
-// // //   await page.fill('input[placeholder="Email address"]', "mazumpaudel02@gmail.com");
-
-// // //   // Step 4: Fill in the password
-// // //   await page.fill('input[placeholder="Password"]', "advisebridge@123");
-
-// // //   // Step 5: Wait for 5 seconds to observe the filled fields
-// // //   await page.waitForTimeout(5000);
-// // // });
-
-
-// // // import { test, expect } from "@playwright/test";
-
-// // // test("Institution Login Test - Fill Only", async ({ page }) => {
-// // //   await page.goto("/institution/login");
-// // //   await page.waitForLoadState("domcontentloaded");
-
-// // //   // Try using label-based selectors
-// // //   await page.getByLabel("Email address").fill("mazumpaudel02@gmail.com");
-// // //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// // //   await page.waitForTimeout(5000);
-// // // });
-
-
-// // // import { test, expect } from "@playwright/test";
-
-// // // test("Staging - Institution Login Test", async ({ page }) => {
-// // //   // Step 1: Go to staging login page
-// // //   await page.goto("https://staging.advisebridge.com/institution/login");
-
-// // //   // Step 2: Wait for page to load
-// // //   await page.waitForLoadState("domcontentloaded");
-
-// // //   // Step 3: Fill email
-// // //   await page.getByLabel("Email address").fill("mazumpaudel02@gmail.com");
-
-// // //   // Step 4: Fill password
-// // //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// // //   // Step 5: Wait 5 seconds to see the fields filled
-// // //   await page.waitForTimeout(5000);
-// // // });
-
-// // // import { test, expect } from "@playwright/test";
-
-// // // test("Staging - Institution Login Test", async ({ page }) => {
-// // //   // Step 1: Go to staging login page with credentials
-// // //   await page.goto("https://advisebridge:advisebridge@staging.advisebridge.com/institution/login");
-
-// // //   // Step 2: Wait for page to load
-// // //   await page.waitForLoadState("domcontentloaded");
-
-// // //   // Step 3: Fill email
-// // //   await page.getByLabel("Email address").fill("mazumpaudel02@gmail.com");
-
-// // //   // Step 4: Fill password
-// // //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// // //   // Step 5: Wait 5 seconds to see the fields filled
-// // //   await page.waitForTimeout(5000);
-// // // });
-
-
-// // // import { test, expect } from "@playwright/test";
-
-// // // test("Staging - Institution Login Test", async ({ page }) => {
-// // //   // Step 1: Go to staging login page with credentials
-// // //   await page.goto("https://advisebridge:advisebridge@staging.advisebridge.com/institution/login");
-
-// // //   // Step 2: Wait for page to load
-// // //   await page.waitForLoadState("domcontentloaded");
-
-// // //   // Step 3: Fill email
-// // //   await page.getByLabel("Email address").fill("mazumpaudel02@gmail.com");
-
-// // //   // Step 4: Fill password
-// // //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// // //   // Step 5: Wait 15 seconds so you can see the result
-// // //   await page.waitForTimeout(15000);
-// // // });
-
-// // //import { test, expect } from "@playwright/test";
-
-// // // test("Staging - Institution Login Test", async ({ page }) => {
-// // //   // Step 1: Go to staging login page with credentials
-// // //   await page.goto("/institution/login");
-
-// // //   // Step 2: Wait for page to load
-// // //   await page.waitForLoadState("domcontentloaded");
-
-// // //   // Step 3: Fill email
-// // //   await page.getByLabel("Email address").fill("mazumpaudel03@gmail.com");
-
-// // //   // Step 4: Fill password
-// // //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// // //   // Step 5: Click the Sign in button
-// // //   await page.getByRole("button", { name: "Sign in" }).click();
-
-// // //   // Step 6: Wait to see what happens after login
-// // //   await page.waitForTimeout(15000);
-// // // });
-
-// // import { test, expect } from "@playwright/test";
-
-// // test("Staging - Institution Login Test", async ({ page }) => {
-// //   // Step 1: Go to login page (baseURL is added automatically!)
-// //   await page.goto("/institution/login");
-
-// //   // Step 2: Wait for page to load
-// //   await page.waitForLoadState("domcontentloaded");
-
-// //   // Step 3: Fill email
-// //   await page.getByLabel("Email address").fill("mazumpaudel03@gmail.com");
-
-// //   // Step 4: Fill password
-// //   await page.getByLabel("Password").fill("advisebridge@123");
-
-// //   // Step 5: Click the Sign in button
-// //   await page.getByRole("button", { name: "Sign in" }).click();
-
-// //   // Step 6: Wait for dashboard to load
-// //   await page.waitForLoadState("networkidle");
-
-// //   // Step 7: Click the Apply Now button
-// //   await page.getByRole("button", { name: "Apply Now" }).click();
-
-// //   // Step 8: Wait to see what happens after login
-// //   await page.waitForTimeout(15000);
-// // });
-
-// //
-
-
-// import { test, expect } from "@playwright/test";
-
-// test("Staging - Institution Login and Create Profile", async ({ page }) => {
-//   // Step 1-5: Login
-//   await page.goto("/institution/login");
-//   await page.waitForLoadState("domcontentloaded");
-//   await page.getByLabel("Email address").fill("mazumpaudel03@gmail.com");
-//   await page.getByLabel("Password").fill("advisebridge@123");
-//   await page.getByRole("button", { name: "Sign in" }).click();
-
-//   // Step 6: Wait for navigation to dashboard
-//   await page.waitForURL("**/institution");
-//   await page.waitForTimeout(3000); // Wait 3 seconds for everything to load
-
-//   // Step 7: Click Apply Now (try different selector)
-//   await page.click('button:has-text("Apply Now")');
-
-//   // Step 8: Wait for form
-//   await page.waitForTimeout(2000);
-// })
-
-// import { test, expect } from "@playwright/test";
-
-// test("Staging - Institution Login and Create Profile", async ({ page }) => {
-//   // Login
-//   await page.goto("/institution/login");
-//   await page.waitForLoadState("domcontentloaded");
-//   await page.getByLabel("Email address").fill("mazumpaudel03@gmail.com");
-//   await page.getByLabel("Password").fill("advisebridge@123");
-//   await page.getByRole("button", { name: "Sign in" }).click();
-
-//   // Wait and pause here
-//   await page.waitForTimeout(5000);
-//   await page.pause(); // This will pause and let you inspect!
-// });
-
-
-// import { test, expect } from "@playwright/test";
-
-// test("Staging - Institution Login and Open Profile Form", async ({ page }) => {
-//   // Step 1: Login
-//   await page.goto("https://staging.advisebridge.com/institution/login");
-//   await page.waitForLoadState("domcontentloaded");
-//   await page.getByLabel("Email address").fill("mazumpaudel03@gmail.com");
-//   await page.getByLabel("Password").fill("advisebridge@123");
-//   await page.getByRole("button", { name: "Sign in" }).click();
-
-//   // Step 2: Wait for dashboard to load
-//   await page.waitForTimeout(3000);
-
-//   // Step 3: Click "Update institution profile"
-//   await page.getByText("Update institution profile", { exact: false }).click();
-
-//   // Step 4: Confirm Institution Information page loaded
-//   await expect(page.getByText("Institution Information")).toBeVisible();
-
-//     // Fill Institution Name
-//   await page.getByLabel("Name*", { exact: true }).fill("ElixirAI");
-//   await page.getByLabel("Email*", { exact: true }).fill("mazumpaudel03@gmail.com");
-
-
-
-//   // Step 5: Pause to inspect the form
-//   await page.pause();
-
-
-
-
-// });
-
-// import { test, expect } from '@playwright/test';
-
-// test('Sign up with testingmazum account', async ({ page }) => {
-//   // Step 1: Go to the login page
-//   await page.goto('https://staging.advisebridge.com/institution/login');
-
-//   // Step 2: Click the "sign up for an account" link
-//   await page.getByText('sign up for an account').click();
-
-//   // Step 3: Fill the sign-up form
-//   await page.getByLabel('Institution Name*').fill('testingmazum');
-//   await page.getByLabel('Email address*').fill('testingmazum02@gmail.com');
-//   await page.getByLabel('Password*', { exact: true }).fill('testingmazum123');
-//   await page.getByLabel('Confirm password*', { exact: true }).fill('testingmazum123');
-
-//   // Step 4: Submit the form
-//   await page.getByRole('button', { name: 'Sign up' }).click();
-
-//   // Step 5: Wait for dashboard to load
-//   await expect(page).toHaveURL(/institution/); // adjust if needed
-
-//   // Step 6: Click "Update institution profile"
-//   await page.getByRole('button', { name: 'Update institution profile' }).click();
-// });
-
 import { expect, test } from '@playwright/test';
+import path from 'path';
 
 test('Log in and click Update institution profile', async ({ page }) => {
   await page.goto('https://staging.advisebridge.com/institution/login');
 
-  await page.getByLabel('Email address*').fill('testingmazum02@gmail.com');
-  await page.getByLabel('Password*', { exact: true }).fill('testingmazum123');
+  // Login
+  await page.getByLabel('Email address*').fill('teamadvisebridge@gmail.com');
+  await page.getByLabel('Password*', { exact: true }).fill('Teamadvisebridge00#');
   await page.getByLabel('Remember me').check();
   await page.getByRole('button', { name: 'Sign in' }).click();
 
-
-
-  // Step 5: Wait for dashboard URL
+  // Wait for dashboard
   await expect(page).toHaveURL('https://staging.advisebridge.com/institution');
 
-
-
-  // Step 6: Wait for the button to appear
+  // Open institution profile
   await page.getByText('Update institution profile').click();
 
-  // ✅ Step 7: Fill profile fields
+  // Fill Information tab fields
   await page.getByLabel('Video URL', { exact: true }).fill('https://youtube.com/shorts/7UNQ9lHESdQ?si=On2nNcX8e-sga55c');
   await page.getByLabel('Application Portal URL', { exact: true }).fill('https://qa.portal.internal/apply/session/9d21e7');
   await page.getByLabel('Total Students', { exact: true }).fill('12000');
@@ -269,35 +27,95 @@ test('Log in and click Update institution profile', async ({ page }) => {
   await page.getByText("Select Institution Type").click();
   await page.getByRole("option", { name: "University" }).click();
 
-  // Established Year dropdown
   await page.getByText("Select Year").click();
   await page.getByRole("option", { name: "1977" }).click();
+
   await page.getByRole('textbox', { name: 'Notes' }).fill(
     'This institution has consistently demonstrated a commitment to academic excellence and global engagement. With a diverse student body and strong private funding, it continues to expand research initiatives and foster innovation across disciplines.'
   );
 
-  await page.locator('input[type="file"]').first().setInputFiles('Playwright/tests/institution/dp.jpg');
+  //  Navigate to Images tab
+  await page.getByRole('tab', { name: 'Images' }).click();
+  await expect(page.locator('//div[@id="data.logo"]//input[@type="file"]')).toBeVisible();
+
+  //  File path setup (points to files/institution_images/dp.jpg)
+  const filePath = path.join(__dirname, '../../files/institution_images/dp.jpg');
 
   // Logo
-  await page.locator('//div[@id="data.logo"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+  await page.locator('//div[@id="data.logo"]//input[@type="file"]').setInputFiles(filePath);
 
   // Thumbnail
-  await page.locator('//div[@id="data.thumbnail"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+  await page.locator('//div[@id="data.thumbnail"]//input[@type="file"]').setInputFiles(filePath);
 
   // Cover
-  await page.locator('//div[@id="data.cover"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+  await page.locator('//div[@id="data.cover"]//input[@type="file"]').setInputFiles(filePath);
 
-  // Extra images (grid layout)
-  await page.locator('//div[@data-style-panel-layout="grid"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
+  // Extra images
+  await page.locator('//div[@data-style-panel-layout="grid"]//input[@type="file"]').setInputFiles(filePath);
 
-  // Extra images (grid layout)
-  await page.locator('//div[@data-style-panel-layout="grid"]//input[@type="file"]').setInputFiles('Playwright/tests/institution/dp.jpg');
-
-  // Additional images (drag & drop area)
+  // Additional images
 
 
+  // Navigate to Description tab
+  await page.getByRole('tab', { name: 'Description' }).click();
 
+  // Institution Description
+  const institutionDescription = page.locator('#data\\.institution_description');
+  await institutionDescription.click();
+  await institutionDescription.fill(
+    'Team AdviseBridge University is a globally recognized institution offering diverse programs in science, technology, and humanities. It emphasizes innovation, research, and international collaboration.'
+  );
+
+  // Glance Description
+  const glanceDescription = page.locator('#data\\.glance_description');
+  await glanceDescription.click();
+  await glanceDescription.fill(
+    'At a glance: 12,000 students, 4,000 international students, strong private funding, and a commitment to excellence.'
+  );
+
+  // Overview Description
+  const overviewDescription = page.locator('#data\\.overview_description');
+  await overviewDescription.click();
+  await overviewDescription.fill(
+    'Founded in 1977, Team AdviseBridge University has consistently expanded its academic offerings and research initiatives. With a diverse student body and strong global partnerships, it continues to foster innovation and leadership across disciplines.'
+  );
+
+  // Navigate to Eligibilities tab
+  await page.getByRole('tab', { name: 'Eligibilities' }).click();
+  await page.waitForTimeout(1000);
+
+  // Click "Add More" to create the first eligibility entry
+  await page.getByRole('button', { name: 'Add More' }).click();
+  await page.waitForTimeout(1000); // Give it more time
+
+  // Click the chevron/arrow button to expand - try multiple selectors
+  try {
+    await page.locator('button').filter({ hasText: /chevron|toggle/i }).click({ timeout: 5000 });
+  } catch {
+    // If that fails, try clicking near the trash icon
+    await page.locator('button[type="button"]').nth(1).click();
+  }
+
+  await page.waitForTimeout(500);
+
+  // Now the form should be visible - fill in the fields
+  await page.locator('text=Select Education Level').first().click();
+  await page.getByRole('option', { name: "Bachelor's Degree" }).click();
+
+  await page.locator('text=Select Education Level').nth(1).click();
+  await page.getByRole('option', { name: "High School" }).click();
+
+  await page.locator('text=Select GPA Total').click();
+  await page.getByRole('option', { name: "3.25" }).click();
+
+  // Fill IELTS - simpler approach
+  await page.locator('input[type="text"]').filter({ hasText: /ielts/i }).fill('8');
+
+  // Fill SAT
+  await page.locator('input[type="text"]').filter({ hasText: /sat/i }).fill('1200');
 
   await page.pause();
+
+
 
 });
