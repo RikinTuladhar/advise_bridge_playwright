@@ -85,7 +85,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.waitForTimeout(2000);
   await newPage.locator("div.grid a").nth(0).click();
   await newPage.waitForTimeout(2000);
-  //Navigate to University
+  
   await newPage.getByRole('link', { name: 'Courses offered' }).click();
   // Apply for Bachelor Degree
   await newPage.getByRole("button", { name: "Bachelor's Degree" }).click();

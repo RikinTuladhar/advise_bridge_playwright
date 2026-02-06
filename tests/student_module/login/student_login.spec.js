@@ -1,5 +1,5 @@
 import test from "@playwright/test";
-import { StudentLoginPage } from "../../../pages/student/loginpage";
+import { StudentLoginPage } from "../../../pages/student/student_loginpage.js";
 import { student_login }from '../../../datas/student_data.js';
 
 test("Blankfields", async ({ page }) => {

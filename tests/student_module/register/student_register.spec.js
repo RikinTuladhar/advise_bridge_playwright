@@ -1,5 +1,5 @@
 import test from "@playwright/test";
-import { StudentRegisterPage } from "../../../pages/student/registerpage";
+import { StudentRegisterPage } from "../../../pages/student/student_registerpage.js";
 import { student_validregister } from '../../../datas/student_data.js';
 
 test("Valid Register",async ({page}) => {

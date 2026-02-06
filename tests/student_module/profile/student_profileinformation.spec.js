@@ -185,6 +185,7 @@ test("Student Profile Information", async ({ page }) => {
   await fileInputs.nth(4).setInputFiles(student_data.documents.recommendationletter);
   await fileInputs.nth(5).setInputFiles(student_data.documents.financialdocuments);
   await fileInputs.nth(6).setInputFiles(student_data.documents.otherdocuments);
+  await page.waitForTimeout(2000);
   await page.locator('button:has-text("Save")').nth(5).click();
   await page.waitForTimeout(4000);
 

@@ -28,8 +28,8 @@ export async function studentLogin(page) {
 
 export async function agentLogin(page) {
   await page.goto("/login?tab=student");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadvisebridge00");
   await page.click("//button[normalize-space()='Log in as student']");
   await page.waitForURL("/advisor");
 }
