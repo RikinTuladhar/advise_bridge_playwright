@@ -1,25 +1,25 @@
 import test from "@playwright/test";
 import { StudentLoginPage } from "../../../pages/student/loginpage";
-import { student_blankfields, student_invalidlogin, student_validlogin }from '../../../datas/student_data.js';
+import { student_login }from '../../../datas/student_data.js';
 
 test("Blankfields", async ({ page }) => {
   const student_page = new StudentLoginPage(page);
   await student_page.goToStudentLoginPage();
-  await student_page.loginAsStudent(student_blankfields.email, student_blankfields.password);
+  await student_page.loginAsStudent(student_login.blankfields.email, student_login.blankfields.password);
   await student_page.forTimeout();
 });
 
 test("Invalid Login", async ({ page }) => {
   const student_page = new StudentLoginPage(page);
   await student_page.goToStudentLoginPage();
-  await student_page.loginAsStudent(student_invalidlogin.email, student_invalidlogin.password);
+  await student_page.loginAsStudent(student_login.invalid.email, student_login.invalid.password);
   await student_page.forTimeout();
 });
 
 test("Valid Login", async ({ page }) => {
   const student_page = new StudentLoginPage(page);
   await student_page.goToStudentLoginPage();
-  await student_page.loginAsStudent(student_validlogin.email, student_validlogin.password);
+  await student_page.loginAsStudent(student_login.valid.email, student_login.valid.password);
   await student_page.successfulLogin();
 });
 

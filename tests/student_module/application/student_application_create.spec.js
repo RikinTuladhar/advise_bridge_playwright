@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { studentLogin } from "../../../helper/login.js";
+import{ student_apply } from "../../../datas/student_data.js";
 
 test("Student Apply Now", async ({ page }) => {
   await studentLogin(page);
@@ -14,22 +15,22 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.locator("button", { hasText: "Search by college name..." }).click();
   const searchName = newPage.getByPlaceholder("Search by institution name...");
   await newPage.waitForTimeout(2000);
-  await searchName.fill("Troy University");
+  await searchName.fill(student_apply.institutionname);
   await newPage.waitForTimeout(2000);
   const dropdown = newPage.locator("ul.max-h-80");
   await dropdown.waitFor({ state: "visible" });
   await dropdown.click();
-  await expect(newPage).toHaveURL("https://www.advisebridge.com/institutions/troy-university");
+  await expect(newPage).toHaveURL("/institutions/troy-university");
   await newPage.waitForTimeout(2000);
   await newPage.getByRole("link", { name: "Search" }).nth(0).click();
-  await expect(newPage).toHaveURL("https://www.advisebridge.com/search");
+  await expect(newPage).toHaveURL("/search");
 
   /* ---Apply for Institution--- */
   // Institution Types
   await newPage.click("//button[normalize-space()='Institution Types']");
   await newPage.waitForTimeout(1000);
   const searchInstitution = newPage.getByPlaceholder("Search...");
-  await searchInstitution.fill("University");
+  await searchInstitution.fill(student_apply.institutiontype);
   await newPage.waitForTimeout(1000);
   await newPage.locator("li", { hasText: "University" }).locator('input[type="checkbox"]').check();
   await newPage.waitForTimeout(1000);
@@ -37,7 +38,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.click("//button[normalize-space()='Countries']");
   await newPage.waitForTimeout(1000);
   const searchCountry = newPage.getByPlaceholder("Search...");
-  await searchCountry.fill("United States");
+  await searchCountry.fill(student_apply.countries);
   await newPage.waitForTimeout(1000);
   await newPage.locator("li", { hasText: "United States" }).locator('input[type="checkbox"]').check();
   await newPage.waitForTimeout(1000);
@@ -45,7 +46,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.click("//button[normalize-space()='States']");
   await newPage.waitForTimeout(1000);
   const searchStates = newPage.getByPlaceholder("Search...");
-  await searchStates.fill("Texas");
+  await searchStates.fill(student_apply.states);
   await newPage.waitForTimeout(1000);
   await newPage.locator("li", { hasText: "Texas" }).locator('input[type="checkbox"]').check();
   await newPage.waitForTimeout(1000);
@@ -53,7 +54,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.click("//button[normalize-space()='Education Levels *']");
   await newPage.waitForTimeout(1000);
   const searchLevel = newPage.getByPlaceholder("Search...");
-  await searchLevel.fill("Bachelor");
+  await searchLevel.fill(student_apply.educationlevel);
   await newPage.waitForTimeout(1000);
   await newPage.locator("li", { hasText: "Bachelor's Degree" }).click();
   await newPage.waitForTimeout(1000);
@@ -61,7 +62,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.click("//button[normalize-space()='Majors *']");
   await newPage.waitForTimeout(1000);
   const searchMajors = newPage.getByPlaceholder("Search...");
-  await searchMajors.fill("Agriculture");
+  await searchMajors.fill(student_apply.majors);
   await newPage.waitForTimeout(1000);
   await newPage.locator("li", { hasText: "Agriculture" }).nth(0).click();
   await newPage.waitForTimeout(2000);
@@ -83,11 +84,9 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.locator('input[type="radio"][value="az"]').click();
   await newPage.waitForTimeout(2000);
   await newPage.locator("div.grid a").nth(0).click();
-  //Navigate to University
   await newPage.waitForTimeout(2000);
-  const coursesOffered = newPage.locator("h4", { hasText: "Courses offered" });
-  await coursesOffered.scrollIntoViewIfNeeded();
-  await expect(coursesOffered).toBeVisible();
+  //Navigate to University
+  await newPage.getByRole('link', { name: 'Courses offered' }).click();
   // Apply for Bachelor Degree
   await newPage.getByRole("button", { name: "Bachelor's Degree" }).click();
   await newPage.waitForTimeout(2000);

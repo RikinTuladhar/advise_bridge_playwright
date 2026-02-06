@@ -5,7 +5,7 @@ test("Student Application Delete ", async ({ page }) => {
   await studentLogin(page);
   await page.waitForTimeout(1000);
   await page.getByRole("link", { name: "Applications" }).click();
-  await expect(page).toHaveURL("https://www.advisebridge.com/student/applications");
+  await expect(page).toHaveURL("/student/applications");
   await page.waitForTimeout(2000);
   // Delete Application
   const scroll = page.locator('th:has-text("Last Activity")');
@@ -15,7 +15,7 @@ test("Student Application Delete ", async ({ page }) => {
   await page.getByRole("button", { name: "Delete" }).nth(0).click();
   await page.waitForTimeout(1000);
   // await page.getByRole('button', { name: 'Cancel' }).click();
-  await page.getByRole("button", { name: "Confirm" }).click();
+  await page.getByRole("button", { name: "Delete" }).nth(1).click();
   await page.waitForTimeout(1000);
   // Delete Message
   const deleteMsg = page.locator("h3.fi-no-notification-title");
