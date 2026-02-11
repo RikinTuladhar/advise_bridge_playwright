@@ -66,13 +66,13 @@ export const student_data = {
         writingScore: "6.5",
         listeningScore: "8.0",
         averageScore: "7.5",
-        examDate: { year: "2026", month: "January", day: "25" },
+        examDate: { year: "2025", month: "December", day: "29" },
     },
     gpa: {
         gpascale: "0-4",
         gpascore: "2.5",
-        kse: "GRE",
-        ksescore: "300",
+        kse: "SAT",
+        ksescore: "350",
     },
     academic: {
         institutionname: "Tribhuvan University",

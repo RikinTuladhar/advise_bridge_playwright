@@ -7,7 +7,7 @@ test("Student My-Profile", async ({ page }) => {
     await page.locator(".fi-avatar").click();
     await page.waitForTimeout(1000);
     await page.locator('a[href$="/student/my-profile"]').click();
-    await expect(page).toHaveURL("/student/my-profile");
+    await expect(page).toHaveURL(/\/student\/my-profile$/);
     await page.locator(".fi-avatar").click();
     // My-Profile
     // await page.locator('label:has-text("Click here to upload image...")').setInputFiles(student_profile.profile.image);

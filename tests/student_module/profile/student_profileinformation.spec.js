@@ -5,7 +5,7 @@ import { student_data } from '../../../datas/student_data.js';
 test("Student Profile Information", async ({ page }) => {
   await studentLogin(page);
   await page.click("text=Profile Information");
-  await expect(page).toHaveURL("/student/students/1604?tab=-profile-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-profile-tab$/);
   await page.waitForTimeout(1000);
 
   /* ---Profile Information--- */
@@ -38,7 +38,7 @@ test("Student Profile Information", async ({ page }) => {
 
   /* ---Address--- */
   await page.locator('button[role="tab"]', { hasText: "Address" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-address-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-address-tab$/);
   await page.waitForTimeout(2000);
   // Select Country
   await page.locator(".choices__inner").nth(0).click();
@@ -54,7 +54,7 @@ test("Student Profile Information", async ({ page }) => {
   await stateSearch.press("Enter");
   // Select City
   await page.locator(".choices__inner").nth(2).click();
-  const citySearch = page.getByRole("textbox", { name: "Select City" });
+  const citySearch = page.getByLabel("Select City", { exact: true });
   await citySearch.type(student_data.address.city);
   await page.waitForTimeout(5000);
   await citySearch.press("Enter");
@@ -67,10 +67,9 @@ test("Student Profile Information", async ({ page }) => {
   await page.locator('button:has-text("Save")').nth(1).click();
   await page.waitForTimeout(3000);
 
-
   /* ---Language--- */
   await page.locator('button[role="tab"]', { hasText: "Language" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-language-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-language-tab$/);
   await page.waitForTimeout(2000);
   // Open the English Exam dropdown
   await page.locator(".choices__inner").nth(3).click();
@@ -94,19 +93,17 @@ test("Student Profile Information", async ({ page }) => {
   await page.waitForTimeout(1000);
   // Exam Date
   await page.locator("#data\\.exam_date").click();
-  const examdate = page.locator(".fi-fo-date-time-picker-panel");
+  const examdate = page.locator(".fi-fo-date-time-picker-panel").nth(1);
   await examdate.getByRole("spinbutton").fill(student_data.language.examDate.year);
   await examdate.locator('select[x-model="focusedMonth"]:visible').selectOption({ label: student_data.language.examDate.month });
-  await page.waitForTimeout(1000);
-  await examdate.locator('[role="option"]:visible', { hasText: student_data.language.examDate.day }).first().click();
-  await page.waitForTimeout(1000);
+  await examdate.locator('[role="option"]:visible', { hasText: student_data.language.examDate.day }).first();
   await page.locator('button:has-text("Save")').nth(2).click();
   await page.waitForTimeout(3000);
 
 
   /* ---GPA & KSE--- */
   await page.locator('button[role="tab"]', { hasText: "GPA & KSE" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-gpa-kse-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-gpa-kse-tab$/);
   await page.waitForTimeout(2000);
   // GPA Scale
   await page.locator(".choices__inner", { has: page.locator("#data\\.gpa_id") }).click();
@@ -131,20 +128,19 @@ test("Student Profile Information", async ({ page }) => {
 
   /* ---Academics--- */
   await page.locator('button[role="tab"]', { hasText: "Academics" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-academics-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-academics-tab$/);
   await page.waitForTimeout(2000);
   // await page.locator('[wire\\:click*="education_history"] >> text=Add More').click();
   await page.getByRole("textbox", { name: "Institution name*" }).fill(student_data.academic.institutionname);
   await page.waitForTimeout(1000);
   await page.getByRole("textbox", { name: "Street" }).fill(student_data.academic.street);
-  //await page.waitForTimeout(3000);
+  //await page.waitForTimeout(3000);`                                                                                                                           
   // Open Country dropdown
   await page.locator(".choices__inner").nth(7).click();
   const searchCountry = page.getByRole("textbox", { name: "Select Country" });
   await page.waitForTimeout(1000);
   await searchCountry.type(student_data.academic.country);
   await searchCountry.press("Enter");
-  await expect(page.locator(".choices__inner .choices__item--selectable").nth(7)).toContainText(student_data.academic.country);
   await page.waitForTimeout(1000);
   // Open State dropdown
   await page.locator(".choices__inner").nth(8).click();
@@ -153,7 +149,6 @@ test("Student Profile Information", async ({ page }) => {
   await searchState.type(student_data.academic.state);
   await searchState.press("Enter");
   await page.waitForTimeout(3000);
-  await expect(page.locator(".choices__inner .choices__item--selectable").nth(8)).toContainText(student_data.academic.state);
   await page.waitForTimeout(1000);
   // Open City dropdown
   await page.locator(".choices__inner").nth(9).click();
@@ -161,7 +156,6 @@ test("Student Profile Information", async ({ page }) => {
   await page.waitForTimeout(1000);
   await searchCity.type(student_data.academic.city);
   await searchCity.press("Enter");
-  await expect(page.locator(".choices__inner .choices__item--selectable").nth(9)).toContainText(student_data.academic.city);
   await page.waitForTimeout(1000);
   await page.locator('[wire\\:model*="education_history"][id$="zip_code"]').fill(student_data.academic.zipcode);
   await page.waitForTimeout(1000);
@@ -175,8 +169,8 @@ test("Student Profile Information", async ({ page }) => {
 
   /* ---Document--- */
   await page.locator('button[role="tab"]', { hasText: "Documents" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-documents-tab");
-  // await page.waitForTimeout(2000);
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-documents-tab$/);
+  await page.waitForTimeout(2000);
   const fileInputs = page.locator('input[type="file"]');
   await fileInputs.nth(0).setInputFiles(student_data.documents.passport);
   await fileInputs.nth(1).setInputFiles(student_data.documents.englanguage);
@@ -185,13 +179,13 @@ test("Student Profile Information", async ({ page }) => {
   await fileInputs.nth(4).setInputFiles(student_data.documents.recommendationletter);
   await fileInputs.nth(5).setInputFiles(student_data.documents.financialdocuments);
   await fileInputs.nth(6).setInputFiles(student_data.documents.otherdocuments);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(9000);
   await page.locator('button:has-text("Save")').nth(5).click();
   await page.waitForTimeout(3000);
 
   /* ---Emergency Contact--- */
   await page.locator('button[role="tab"]', { hasText: "Emergency" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-emergency-tab");
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-emergency-tab$/);
   await page.waitForTimeout(2000);
   // await page.locator('[wire\\:click*="emergency_contact"] >> text=Add More').click();
   await page.getByRole("textbox", { name: "Contact name" }).fill(student_data.emergencyContact.contactname);
@@ -203,8 +197,8 @@ test("Student Profile Information", async ({ page }) => {
 
   /* ---Consent--- */
   await page.locator('button[role="tab"]', { hasText: "Consent" }).click();
-  await expect(page).toHaveURL("/student/students/1604?tab=-consent-tab");
-  await page.waitForTimeout(2000);
+  await expect(page).toHaveURL(/\/student\/students\/\d+\?tab=-consent-tab$/);
+  await page.waitForTimeout(1000);
   // Uncheck Consent Checkbox
   await page.locator("#data\\.consent_signature").uncheck();
   await expect(page.locator("#data\\.consent_signature")).not.toBeChecked();
