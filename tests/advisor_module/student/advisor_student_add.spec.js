@@ -304,9 +304,9 @@ test("Create Student", async ({ page }) => {
   const gpaSearch = page.getByRole('textbox', { name: 'Select GPA Score' });
   await page.waitForTimeout(1000);
   await gpaSearch.type('2.5');
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(2000);
   await gpaSearch.press('Enter');
-  await page.waitForTimeout(1000);
+  //await page.waitForTimeout(1000);
   // KSE
   await page.locator('.choices__inner', { has: page.locator('#data\\.knowledge_skill_exam_id')}).click();
   await page.locator('.choices__list--dropdown .choices__item', { hasText: 'GRE'}).click();
@@ -348,16 +348,16 @@ test("Create Student", async ({ page }) => {
   await page.waitForTimeout(3000);
   await searchState.press('Enter');
   await expect(page.locator('.choices__inner .choices__item--selectable').nth(1)).toContainText('Bagmati');
-  await page.waitForTimeout(2000);
+  //await page.waitForTimeout(2000);
   // Open City dropdown
   await page.locator('.choices__inner').nth(2).click();
   const searchCity = page.getByRole('textbox', { name: 'Select City' });
-  await page.waitForTimeout(2000);
+  //await page.waitForTimeout(2000);
   await searchCity.type('Kathmandu');
-  await page.waitForTimeout(3000);
+  //await page.waitForTimeout(3000);
   await searchCity.press('Enter');
   await expect(page.locator('.choices__inner .choices__item--selectable').nth(2)).toContainText('Kathmandu');
-  await page.waitForTimeout(2000);
+  //await page.waitForTimeout(2000);
   await page.getByRole('textbox', { name: 'Zip code' }).fill('8097');
   
   await page.locator('.choices__list--single').nth(3).click();
