@@ -2,6 +2,16 @@ import { test, expect } from "@playwright/test";
 import { studentLogin } from "../../../helper/login.js";
 import { student_data } from '../../../datas/student_data.js';
 
+// Warning Message Function
+async function warningMessage(newPage) {
+    const warning = await newPage.locator('div.fl-flasher.fl-warning', { timeout: 15000 });
+    await expect(warning).toBeVisible();
+    await expect(warning.locator('.fl-title')).toHaveText('Warning');
+    await expect(warning.locator('.fl-progress')).toBeVisible();
+    return warning;
+}
+
+
 test("Student Application Not Apply", async ({ page }) => {
     await studentLogin(page);
     await page.waitForTimeout(1000);
@@ -26,7 +36,8 @@ test("Student Application Not Apply", async ({ page }) => {
     await courseBachelor.getByRole("button", { name: "Apply Now" }).click();
     await newPage.waitForTimeout(2000);
     await newPage.click("//button[normalize-space()='Save and Continue']");
-    await newPage.waitForTimeout(5000);
+    await warningMessage(newPage);
+
     // Apply for Master Degree
     await newPage.getByRole("button", { name: "Master's Degree" }).click();
     await newPage.waitForTimeout(2000);
@@ -34,5 +45,12 @@ test("Student Application Not Apply", async ({ page }) => {
     await courseMaster.getByRole("button", { name: "Apply Now" }).click();
     await newPage.waitForTimeout(2000);
     await newPage.click("//button[normalize-space()='Save and Continue']");
-    await newPage.waitForTimeout(5000);
+    await warningMessage(newPage);
 });
+
+// const warning = await newPage.locator('div.fl-flasher.fl-warning', { timeout: 15000 });
+// await expect(warning).toBeVisible();
+// await expect(warning.locator('.fl-title')).toHaveText('Warning');
+// // await expect(warning.locator('.fl-message')).toHaveText('You are not eligible for this program. GPA requirements not met!');
+// await expect(warning.locator('.fl-progress')).toBeVisible();
+

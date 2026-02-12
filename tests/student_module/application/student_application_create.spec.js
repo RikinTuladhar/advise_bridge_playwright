@@ -1,6 +1,15 @@
 import { expect, test } from "@playwright/test";
 import { studentLogin } from "../../../helper/login.js";
-import{ student_apply } from "../../../datas/student_data.js";
+import { student_apply } from "../../../datas/student_data.js";
+
+// Warning Message Function
+async function warningMessage(newPage) {
+  const warning = await newPage.locator('div.fl-flasher.fl-warning', { timeout: 15000 });
+  await expect(warning).toBeVisible();
+  await expect(warning.locator('.fl-title')).toHaveText('Warning');
+  await expect(warning.locator('.fl-progress')).toBeVisible();
+  return warning;
+}
 
 test("Student Apply Now", async ({ page }) => {
   await studentLogin(page);
@@ -85,7 +94,7 @@ test("Student Apply Now", async ({ page }) => {
   await newPage.waitForTimeout(2000);
   await newPage.locator("div.grid a").nth(0).click();
   await newPage.waitForTimeout(2000);
-  
+
   await newPage.getByRole('link', { name: 'Courses offered' }).click();
   // Apply for Bachelor Degree
   await newPage.getByRole("button", { name: "Bachelor's Degree" }).click();
@@ -94,7 +103,8 @@ test("Student Apply Now", async ({ page }) => {
   await courseBachelor.getByRole("button", { name: "Apply Now" }).click();
   await newPage.waitForTimeout(2000);
   await newPage.click("//button[normalize-space()='Save and Continue']");
-  await newPage.waitForTimeout(5000);
+  await warningMessage(newPage);
+
   // Apply for Master Degree
   await newPage.getByRole("button", { name: "Master's Degree" }).click();
   await newPage.waitForTimeout(2000);
@@ -102,5 +112,5 @@ test("Student Apply Now", async ({ page }) => {
   await courseMaster.getByRole("button", { name: "Apply Now" }).click();
   await newPage.waitForTimeout(2000);
   await newPage.click("//button[normalize-space()='Save and Continue']");
-  await newPage.waitForTimeout(5000);
+  await warningMessage(newPage);
 });
