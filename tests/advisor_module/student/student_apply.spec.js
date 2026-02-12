@@ -78,14 +78,14 @@ test('Student Apply', async ({ page }) => {
 //   await newPage.waitForTimeout(3000);
 //   await newPage.click("//button[normalize-space()='Find based on eligibility']");
 //   await newPage.waitForTimeout(2000);
-// //   await newPage.click("//button[normalize-space()='Search student by name']");
-// //   await newPage.waitForTimeout(2000);
+//    await newPage.click("//button[normalize-space()='Search student by name']");
+//   await newPage.waitForTimeout(2000);
 //   await newpage.getByText('akshata nepal').click();
-// //   await newPage.click("//button[normalize-space()='Sort By']");
-// //   await newPage.waitForTimeout(2000);
-// //   await newPage.locator('input[type="radio"][value="az"]').click();
-// //   await newPage.waitForTimeout(2000);
-// //   await newPage.locator("div.grid a").nth(0).click();
+//   await newPage.click("//button[normalize-space()='Sort By']");
+//    await newPage.waitForTimeout(2000);
+//    await newPage.locator('input[type="radio"][value="az"]').click();
+//   await newPage.waitForTimeout(2000);
+//    await newPage.locator("div.grid a").nth(0).click();
 //   await newPage.waitForTimeout(2000);
 //   await newPage.getByRole('link', { name: 'Courses offered' }).click();
 
@@ -101,56 +101,24 @@ await newPage.getByRole('button', { name: 'Find based on eligibility' }).click()
 await newPage.waitForSelector('text=akshata nepal', { state: 'visible' });
 await newPage.getByText('akshata nepal').click();
 
-await newPage.getByRole('link', { name: 'Private University William' }).click();
+await newPage.getByRole('link', { name: 'University of Findlay' }).click();
 
 
   // Apply for Bachelor Degree
   await newPage.getByRole("button", { name: "Bachelor's Degree" }).click();
   await newPage.waitForTimeout(2000);
-  const courseBachelor = newPage.locator("div.group").nth(1);
+  //const courseBachelor = newPage.locator("div.group").nth(1);
+   await newPage.getByRole('button', { name: 'Create Application' }).nth(1).click();
   await courseBachelor.getByRole("button", { name: "Apply Now" }).click();
   await newPage.waitForTimeout(2000);
   await newPage.click("//button[normalize-space()='Save and Continue']");
   await newPage.waitForTimeout(5000);
-  // Apply for Master Degree
-  await newPage.getByRole("button", { name: "Master's Degree" }).click();
-  await newPage.waitForTimeout(2000);
-  const courseMaster = newPage.locator("div.group").nth(1);
-  await courseMaster.getByRole("button", { name: "Apply Now" }).click();
-  await newPage.waitForTimeout(2000);
-  await newPage.click("//button[normalize-space()='Save and Continue']");
-  await newPage.waitForTimeout(5000);
+  // // Apply for Master Degree
+  // await newPage.getByRole("button", { name: "Master's Degree" }).click();
+  // await newPage.waitForTimeout(2000);
+  // const courseMaster = newPage.locator("div.group").nth(1);
+  // await courseMaster.getByRole("button", { name: "Apply Now" }).click();
+  // await newPage.waitForTimeout(2000);
+  // await newPage.click("//button[normalize-space()='Save and Continue']");
+  // await newPage.waitForTimeout(5000);
 });
-
-
-
-
-
-
-//     await page1.goto('https://staging.advisebridge.com/search');
-//     await page1.getByRole('button', { name: 'Institution Types' }).click();
-//     await page1.getByRole('listitem').filter({ hasText: 'University' }).click();
-//     await page1.getByRole('button', { name: 'Countries' }).click();
-//     await page1.getByText('United States', { exact: true }).click();
-//     await page1.getByRole('button', { name: 'States', exact: true }).click();
-//     await page1.getByRole('listitem').filter({ hasText: 'California' }).click();
-//     await page1.getByRole('button', { name: 'Education Levels *' }).click();
-//     await page1.locator('span').filter({ hasText: 'Bachelor\'s Degree' }).click();
-//     await page1.getByRole('button', { name: 'Majors *' }).click();
-//     await page1.getByRole('listitem').filter({ hasText: 'Actuarial ScienceSTEM (' }).getByRole('radio').check();
-//     await page1.getByRole('button', { name: 'Apply' }).click();
-//     await page1.getByRole('button', { name: 'Clear All' }).click();
-//     await page1.getByRole('button', { name: 'Find based on eligibility' }).click();
-//     await page1.getByText('akshata nepal').click();
-//     await page1.getByRole('link', { name: 'Private University William' }).click();
-//     await page1.getByRole('button', { name: 'Bachelor\'s Degree' }).click();
-//     await page1.getByRole('button', { name: 'Create Application' }).nth(1).click();
-//     await page1.locator('.flex.gap-3.px-3').first().click();
-//     await page1.getByRole('button', { name: 'Apply Now' }).click();
-//     await page1.getByRole('button', { name: 'Save and Continue' }).click();
-//     await page1.goto('https://staging.advisebridge.com/institutions/william-jessup-university');
-    
-//     // Close the popup page if needed
-//     await page1.close();
-// });
-
