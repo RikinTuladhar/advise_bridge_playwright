@@ -5,7 +5,6 @@ test('Student Apply', async ({ page }) => {
     await advisorLogin(page);
 
     // Wait for navigation and get the new page context
-   // const [page1] = await Promise.all([page.waitForEvent('popup'),page.getByRole('link', { name: 'Apply Now' }).click()]);
   const popup = page.waitForEvent("popup");
   await page.locator(".fi-btn-label", { hasText: "Apply Now" }).click();
   await page.waitForTimeout(3000);
@@ -71,33 +70,13 @@ test('Student Apply', async ({ page }) => {
   await newPage.waitForTimeout(5000);
   await newPage.click("//button[normalize-space()='Clear All']");
 
-// /* ======Find based on eligibility======= */
-//   const scrollDown = newPage.locator("div.grid a").nth(0);
-//   await scrollDown.scrollIntoViewIfNeeded();
-//   await expect(scrollDown).toBeVisible();
-//   await newPage.waitForTimeout(3000);
-//   await newPage.click("//button[normalize-space()='Find based on eligibility']");
-//   await newPage.waitForTimeout(2000);
-//    await newPage.click("//button[normalize-space()='Search student by name']");
-//   await newPage.waitForTimeout(2000);
-//   await newpage.getByText('akshata nepal').click();
-//   await newPage.click("//button[normalize-space()='Sort By']");
-//    await newPage.waitForTimeout(2000);
-//    await newPage.locator('input[type="radio"][value="az"]').click();
-//   await newPage.waitForTimeout(2000);
-//    await newPage.locator("div.grid a").nth(0).click();
-//   await newPage.waitForTimeout(2000);
-//   await newPage.getByRole('link', { name: 'Courses offered' }).click();
-
   /* ======Find based on eligibility======= */
 const scrollDown = newPage.locator("div.grid a").nth(0);
 await scrollDown.scrollIntoViewIfNeeded();
 await expect(scrollDown).toBeVisible();
 
-// Click "Find based on eligibility" button
 await newPage.getByRole('button', { name: 'Find based on eligibility' }).click();
 
-// Wait for and click student name
 await newPage.waitForSelector('text=akshata nepal', { state: 'visible' });
 await newPage.getByText('akshata nepal').click();
 
@@ -109,16 +88,10 @@ await newPage.getByRole('link', { name: 'University of Findlay' }).click();
   await newPage.waitForTimeout(2000);
   //const courseBachelor = newPage.locator("div.group").nth(1);
    await newPage.getByRole('button', { name: 'Create Application' }).nth(1).click();
-  await courseBachelor.getByRole("button", { name: "Apply Now" }).click();
+   await newPage.waitForSelector('text=akshata nepal', { state: 'visible' });
+   await newPage.getByText('akshata nepal').click();
+   await newPage.getByRole('button', { name: 'Apply Now' }).click();
+   await newPage.getByRole('button', { name: 'Save and Continue' }).click();
   await newPage.waitForTimeout(2000);
-  await newPage.click("//button[normalize-space()='Save and Continue']");
-  await newPage.waitForTimeout(5000);
-  // // Apply for Master Degree
-  // await newPage.getByRole("button", { name: "Master's Degree" }).click();
-  // await newPage.waitForTimeout(2000);
-  // const courseMaster = newPage.locator("div.group").nth(1);
-  // await courseMaster.getByRole("button", { name: "Apply Now" }).click();
-  // await newPage.waitForTimeout(2000);
-  // await newPage.click("//button[normalize-space()='Save and Continue']");
-  // await newPage.waitForTimeout(5000);
+  
 });
