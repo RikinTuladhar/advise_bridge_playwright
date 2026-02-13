@@ -5,7 +5,7 @@ test("Student Application Delete ", async ({ page }) => {
    await advisorLogin(page);
   await page.waitForTimeout(1000);
   await page.getByRole("link", { name: "Applications" }).click();
-  await expect(page).toHaveURL("https://www.advisebridge.com/student/applications");
+  await expect(page).toHaveURL("https://staging.advisebridge.com/advisor/applications");
   await page.waitForTimeout(2000);
   // Delete Application
   const scroll = page.locator('th:has-text("Last Activity")');
