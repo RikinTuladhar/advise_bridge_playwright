@@ -1,16 +1,12 @@
 import { test } from "@playwright/test";
-import { AdvisorPage } from "../../../pages/AdvisorPage";
+import { AdvisorLoginPage } from "../../../pages/advisor/advisor_login.js";
+import { advisor_login } from "../../../datas/advisor_data.js";
 
 test("Valid Login", async ({ page }) => {
-  const advisor = {
-    email: "chalaunrrabina@gmail.com",
-    password: "bestNepal@123",
-  };
-  const advisor_page = new AdvisorPage(page);
-  await advisor_page.goToAdvisorLoginGuest();
-  await advisor_page.logInAsGuestToAdvisor(advisor.email, advisor.password);
-
-  //await advisor_page.logout();
+    const advisorPage = new AdvisorLoginPage(page);
+  await advisorPage.goToAdvisorLoginGuest();
+  await advisorPage.logInAsGuestToAdvisor(advisor_login.email, advisor_login.password);
+  await advisorPage.sucessfullLogin();
 });
 
 
