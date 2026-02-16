@@ -1,12 +1,11 @@
-const { expect } = require("@playwright/test");
-exports.StudentLoginPage = class StudentLoginPage {
+import { expect } from "@playwright/test";
+export class StudentLoginPage {
     constructor(page) {
         this.page = page;
         this.emailInput = page.locator("#email");
         this.passwordInput = page.locator("#password");
-        this.loginButton = page.locator("//button[normalize-space()='Log in as student']");
-    }
-
+        this.loginButton = page.locator("//button[normalize-space()='Log in as student']");  
+}
     async goToStudentLoginPage() {
         await this.page.goto("/login?tab=student");
     }
@@ -24,8 +23,8 @@ exports.StudentLoginPage = class StudentLoginPage {
     async successfulLogin() {
         await expect(this.page).toHaveURL("/student");
     }
-
 }
+
 
 
 

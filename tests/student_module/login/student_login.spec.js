@@ -1,4 +1,4 @@
-import test from "@playwright/test";
+import { test } from "@playwright/test";
 import { StudentLoginPage } from "../../../pages/student/student_loginpage.js";
 import { student_login }from '../../../datas/student_data.js';
 

@@ -93,7 +93,7 @@ export const student_data = {
         financialdocuments: "files/student_images/Empty.pdf",
         otherdocuments: "files/student_images/Empty.pdf",
     },
-    emergencyContact: {
+    emergencycontact: {
         contactname: "Ram",
         relationship: "Brother",
         telephone: "9744558237",
@@ -104,8 +104,8 @@ export const student_data = {
 
 // Apply Application Data  
 export const student_apply = {
-    institutionname: "Troy University",
-    institutiontype: "University",
+    institutionName: "Troy University",
+    institutionType: "University",
     countries: "United States",
     states: "Texas",
     educationlevel: "Bachelor",

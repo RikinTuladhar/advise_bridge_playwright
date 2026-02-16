@@ -1,5 +1,5 @@
-const { expect } = require("@playwright/test");
-exports.StudentRegisterPage = class StudentRegisterPage {
+import { expect } from "@playwright/test";
+export class StudentRegisterPage {
     constructor(page) {
         this.page = page;
         this.firstNameInput = page.locator("#first_name");
