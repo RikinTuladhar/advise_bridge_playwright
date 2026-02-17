@@ -3,13 +3,15 @@ import { studentLogin } from "../../../helper/login.js";
 import { student_profile } from "../../../datas/student_data.js";
 import { StudentMyProfile } from "../../../pages/student/student_myprofile_update.js";
 
-
-test("Student My-Profile", async ({ page }) => {
+export async function StudentMyprofile(page) {
     await studentLogin(page);
     const profilePage = new StudentMyProfile(page);
     await profilePage.goToStudentMyProfile();
     await profilePage.updateProfile(student_profile.profile);
     await profilePage.updatePassword(student_profile.password);
+}
+test("Student My-Profile", async ({ page }) => {
+    await StudentMyprofile(page);
 });
 
 

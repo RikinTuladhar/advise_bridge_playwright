@@ -1,5 +1,5 @@
-const { expect } = require("@playwright/test");
-exports.AgentLoginPage = class AgentLoginPage {
+import { expect } from "@playwright/test";
+export class AgentLoginPage {
     constructor(page) {
         this.page = page;
         this.emailInput = page.locator("#data\\.email");

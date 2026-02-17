@@ -16,7 +16,6 @@ export async function advisorLogin(page) {
   await page.waitForURL("/advisor");
 }
 
-
 export async function studentLogin(page) {
   await page.goto("/login?tab=student");
   await page.fill("#email","teamadvisebridge@gmail.com");
@@ -24,17 +23,13 @@ export async function studentLogin(page) {
   await page.click("//button[normalize-space()='Log in as student']");
   await page.waitForURL("/student");
 }
-
-
 export async function agentLogin(page) {
-  await page.goto("/login?tab=student");
-  await page.fill("#email", "teamadvisebridge@gmail.com");
-  await page.fill("#password", "Teamadvisebridge00");
-  await page.click("//button[normalize-space()='Log in as student']");
-  await page.waitForURL("/advisor");
+  await page.goto("/agent/login");
+  await page.fill("#data\\.email", "teamadvisebridge@gmail.com");
+  await page.fill("#data\\.password", "Teamadvisebridge00#");
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.waitForURL("/agent");
 }
-
-
 export async function adminLogin(page, email, password) {
   await page.goto("/admin");
   await page.getByRole("textbox", { name: "Email address*" }).fill(email);

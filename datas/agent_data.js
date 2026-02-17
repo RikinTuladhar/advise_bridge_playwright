@@ -5,7 +5,9 @@ export const agent_login = {
 
 export const agent_profile = {
     name : "TeamAdviseBridge",
+    password :"Teamadvisebridge00#",
     email : "teamadvisebridge@gmail.com",
-    mobilenumber : "9785412630",
-    address  : "Best Nepal"
+    mobilenumber : "0000000",
+    address  : "BestNepal",
+    licensenumber : "111111"
 }
