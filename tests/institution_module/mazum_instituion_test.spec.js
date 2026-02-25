@@ -102,7 +102,6 @@ test('Log in and click Update institution profile', async ({ page }) => {
     await page.locator('button').filter({ hasText: /chevron|toggle/i }).click({ timeout: 5000 });
   } catch {
     // If that fails, try clicking near the trash icon
-    await page.locator('button[type="button"]').nth(1).click();
   }
 
   await page.waitForTimeout(500);
@@ -111,17 +110,60 @@ test('Log in and click Update institution profile', async ({ page }) => {
   await page.locator('text=Select Education Level').first().click();
   await page.getByRole('option', { name: "Bachelor's Degree" }).click();
 
-  await page.locator('text=Select Education Level').nth(1).click();
+  await page.locator('text=Select Education Level').first().click();
   await page.getByRole('option', { name: "High School" }).click();
 
   await page.locator('text=Select GPA Total').click();
   await page.getByRole('option', { name: "3.25" }).click();
 
-  // Fill IELTS - simpler approach
-  await page.locator('input[type="text"]').filter({ hasText: /ielts/i }).fill('8');
+  // Fill IELTS
+  // Fill IELTS using label text
+  // Fill IELTS
+  // Fill IELTS
+  await page.getByRole('spinbutton', { name: 'IELTS' }).fill('8');
+  await page.getByRole('spinbutton', { name: 'SAT' }).fill('1200');
 
-  // Fill SAT
-  await page.locator('input[type="text"]').filter({ hasText: /sat/i }).fill('1200');
+  // Click Add More button
+  await page.getByRole('button', { name: 'Add More' }).click();
+  await page.waitForTimeout(1000); // Wait for form to appear
 
-  await page.pause();
+  // Education Level — use dot prefix to avoid matching "required_education_level_id"
+  // .nth(1) picks the second panel's dropdown (0 = first panel, 1 = second panel)
+  const secondPanelEducationLevel = page
+    .locator('.choices')
+    .filter({ has: page.locator('select[id$=".education_level_id"]') })
+    .nth(1)
+    .locator('.choices__inner');
+
+  await secondPanelEducationLevel.click();
+  await page.getByRole('option', { name: "Master's Degree" }).click();
+
+  // Required Education Level — dot prefix ensures we only match ".required_education_level_id"
+  const secondPanelRequiredLevel = page
+    .locator('.choices')
+    .filter({ has: page.locator('select[id$=".required_education_level_id"]') })
+    .nth(1)
+    .locator('.choices__inner');
+
+  await secondPanelRequiredLevel.click();
+  await page.getByRole('option', { name: "Bachelor's Degree" }).click();
+
+  // GPA Total — dot prefix for the same reason
+  const secondPanelGPA = page
+    .locator('.choices')
+    .filter({ has: page.locator('select[id$=".gpa_total"]') })
+    .nth(1)
+    .locator('.choices__inner');
+
+  await secondPanelGPA.click();
+  await page.getByRole('option', { name: '3.05' }).click();
+
+  // IELTS and GRE — nth(1) targets the second panel's spinbuttons
+  await page.getByRole('spinbutton', { name: 'IELTS' }).nth(1).fill('8');
+  await page.getByRole('spinbutton', { name: 'GRE' }).nth(1).fill('300');
+
+
+
+  page.pause();
 });
+
