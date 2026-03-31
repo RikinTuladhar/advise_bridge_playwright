@@ -1,11 +1,13 @@
-// import test from "@playwright/test";
-// import { StudentPage } from "../../../pages/StudentPage";
+import test from "@playwright/test";
+import { StudentRegisterPage } from "../../../pages/student/student_registerpage.js";
+import { student_validregister } from '../../../datas/student_data.js';
 
-// test("Valid Register",async ({page}) => {
-//     const student_page = new StudentPage(page);
-//     await student_page.goToStudentLoginGuest();
-//     await student_page.register();
-// })
+test("Valid Register",async ({page}) => {
+    const student_page = new StudentRegisterPage(page);
+    await student_page.goToStudentRegisterPage();
+    await student_page.registerStudent(student_validregister.firstname, student_validregister.lastname, 
+        student_validregister.email, student_validregister.password, student_validregister.confirmpassword);
+})
 
 // test("White Space", async ({ page }) => {
 //   const student_page = new StudentPage(page);
@@ -39,30 +41,21 @@
 
 
 // import { expect, test } from "@playwright/test";
-
 // test("Student Login Page", async ({ page }) => {
 //   await page.goto(" /register?tab=student");
-
 //   await page.click("text=Student");
-
 //   await page.getByLabel("First name").fill("Mamata");
 //   await page.getByLabel("Last name").fill("Khanal");
 //   await page.getByLabel("Email").fill("mamatakhanal@gmail.com");
-
 //   await page.locator('input[name="password"]').fill("Mamat@12");
 //   await page.locator('input[name="password_confirmation"]').fill("Mamat@12");
 //   await page.getByRole("button", { name: "Create account as student" }).click();
-
 //   await expect(page).toHaveURL("/student/email-verification/prompt");
-
 //   await page.waitForTimeout(5000);
 // });
 
 
-
-
 // import { expect, test } from "@playwright/test";
-
 // test("Student Register-1", async ({ page }) => {
 //   await page.goto(" https://advisebridge.com/register?tab=student");
 //   await page.click("text=Student");
@@ -75,7 +68,6 @@
 //   await expect(page).toHaveURL("https://advisebridge.com/student/email-verification/prompt");
 //   await page.waitForTimeout(5000);
 // });
-
 // test("Student Register-2", async ({ page }) => {
 //   const student_details = {
 //     first_name: "Muskan",

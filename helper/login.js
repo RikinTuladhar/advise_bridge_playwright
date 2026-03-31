@@ -8,9 +8,7 @@ export async function institutionLogin(page) {
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 
-
 export async function advisorLogin(page) {
-
   await page.goto("/login?tab=advisor");
   await page.fill("#email", "chalaunrrabina@gmail.com");
   await page.fill("#password", "bestNepal@123");
@@ -18,25 +16,20 @@ export async function advisorLogin(page) {
   await page.waitForURL("/advisor");
 }
 
-
 export async function studentLogin(page) {
-
   await page.goto("/login?tab=student");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
+  await page.fill("#email","teamadvisebridge@gmail.com");
+  await page.fill("#password", "teamadvisebridge@gmail.com");
   await page.click("//button[normalize-space()='Log in as student']");
-  await page.waitForURL("/advisor");
+  await page.waitForURL("/student");
 }
-
 export async function agentLogin(page) {
-
-  await page.goto("/login?tab=student");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
-  await page.click("//button[normalize-space()='Log in as student']");
-  await page.waitForURL("/advisor");
+  await page.goto("/agent/login");
+  await page.fill("#data\\.email", "teamadvisebridge@gmail.com");
+  await page.fill("#data\\.password", "Teamadvisebridge00#");
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.waitForURL("/agent");
 }
-
 export async function adminLogin(page, email, password) {
   await page.goto("/admin");
   await page.getByRole("textbox", { name: "Email address*" }).fill(email);
@@ -45,30 +38,4 @@ export async function adminLogin(page, email, password) {
   await page.waitForURL("/admin");
 }
 
-// import { test, expect } from "@playwright/test";
-// import { StudentLoginPage } from "../pages/loginpage";
-// // import { waitForSeconds } from "../helpers/commonHelper";
 
-// test("Student Login Page", async ({ page }) => {
-//   const studentLogin = new StudentLoginPage(page);
-
-//   await studentLogin.goTo();
-//   await studentLogin.loginAsStudent("mamatakhanal08@gmail.com", "mamatakhanal08@gmail.com");
-
-//   await expect(page).toHaveURL("/student");
-
-//   await waitForSeconds(page, 5);
-// });
-
-// export async function login(page) {
-//   await page.goto("https://www.advisebridge.com/login?tab=student");
-
-//   await page.click("text=Student");
-//   await page.fill("#email", "mamatakhanal08@gmail.com");
-//   await page.fill("#password", "mamatakhanal08@gmail.com");
-//   await page.click("//button[normalize-space()='Log in as student']");
-
-//   await expect(page).toHaveURL("https://www.advisebridge.com/student");
-//   await page.waitForTimeout(3000);
-
-// };

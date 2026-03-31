@@ -16,5 +16,7 @@
   "directories": {
     "test": "tests"
   },
-  "description": ""
+  "description": "",
+  "type": "module"
 }
+
