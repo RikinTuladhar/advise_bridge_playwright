@@ -68,32 +68,53 @@ test('Populate missing GPA scales cleanly via Save State Tracing (0.00 to 1.00 B
         await lastTotalInput.press('Tab');
         await page.waitForTimeout(300);
 
-        // Define locators for the save button states
-        const saveBtnSpan = page.locator('span.fi-btn-label:has-text("Save changes")');
-        const saveButtonWrapper = page.locator('button:has(span.fi-btn-label:has-text("Save changes"))');
-
-        // Click Save
-        await saveButtonWrapper.scrollIntoViewIfNeeded();
-        await saveButtonWrapper.click();
-
-        console.log(`[Processing State] Save dispatched for ${gpaValue}. Monitoring framework status...`);
-        
-        // --- THE DYNAMIC STATE FIX ---
-        // 1. Wait for the "Save changes" text span to hide (meaning isProcessing is true)
-        try {
-            await saveBtnSpan.waitFor({ state: 'hidden', timeout: 2000 });
-            console.log('...Database processing active (Spinner spinning)...');
-        } catch (e) {
-            // If the server responds instantly, it might skip hiding the text. That's fine.
-        }
-
-        // 2. Wait for the text span to become visible again (meaning isProcessing is false and the save is done)
-        await saveBtnSpan.waitFor({ state: 'visible', timeout: 10000 });
-        console.log(`[Success] Framework state clear. GPA ${gpaValue} is verified and saved.\n`);
-
-        // Extra layout cooldown to allow validation alerts to clear cleanly
-        await page.waitForTimeout(1000);
+        console.log(`[Processed] Added GPA row for ${gpaValue}`);
     }
 
-    console.log('✓ Success! The entire 0.00 - 1.00 sequence has been processed and saved.');
+    // Save everything in one batch and verify backend persistence.
+    const saveBtnSpan = page.locator('span.fi-btn-label:has-text("Save changes")');
+    const saveButtonWrapper = page.locator('button:has(span.fi-btn-label:has-text("Save changes"))');
+
+    console.log('--- Saving all GPA rows now ---');
+    await saveButtonWrapper.scrollIntoViewIfNeeded();
+    await saveButtonWrapper.click();
+
+    // Wait for the Livewire save request to complete.
+    await page.waitForResponse(
+        (resp) => resp.url().includes('/livewire/update') && resp.status() === 200,
+        { timeout: 20000 }
+    );
+
+    try {
+        await saveBtnSpan.waitFor({ state: 'hidden', timeout: 2000 });
+        console.log('...Save button entered processing state');
+    } catch (e) {
+        // Some builds may not hide the text before finishing.
+    }
+
+    await saveBtnSpan.waitFor({ state: 'visible', timeout: 10000 });
+    console.log('...Save button returned to ready state');
+
+    await page.waitForLoadState('networkidle');
+
+    // Reload and verify the values actually persisted.
+    await page.goto('https://staging.advisebridge.com/admin/gpas/1/edit');
+    await page.waitForLoadState('domcontentloaded');
+
+    const persistedInputs = page.locator('input[wire\:model*="gpa_score"]');
+    const persistedCount = await persistedInputs.count();
+    const persistedValues = new Set();
+
+    for (let i = 0; i < persistedCount; i++) {
+        const value = await persistedInputs.nth(i).inputValue();
+        if (value) {
+            persistedValues.add(parseFloat(value).toFixed(2));
+        }
+    }
+
+    for (const gpaValue of targetGpaList) {
+        expect(persistedValues.has(gpaValue)).toBeTruthy();
+    }
+
+    console.log('✓ Success! The entire 0.00 - 1.00 sequence has been persisted and verified.');
 });
