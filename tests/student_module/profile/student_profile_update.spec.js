@@ -4,8 +4,8 @@ test("Student Dashboard", async ({ page }) => {
   await page.goto("/login?tab=student");
 
   await page.click("text=Student");
-  await page.fill("#email", "mamatakhanal08@gmail.com");
-  await page.fill("#password", "mamatakhanal08@gmail.com");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadv00#");
   await page.click("//button[normalize-space()='Log in as student']");
 
   await expect(page).toHaveURL("/student");
