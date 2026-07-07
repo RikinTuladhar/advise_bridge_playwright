@@ -12,8 +12,8 @@ export async function institutionLogin(page) {
 export async function advisorLogin(page) {
 
   await page.goto("/login?tab=advisor");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadv00#");
   await page.click("//button[normalize-space()='Log in as advisor']");
   await page.waitForURL("/advisor");
 }
@@ -22,19 +22,19 @@ export async function advisorLogin(page) {
 export async function studentLogin(page) {
 
   await page.goto("/login?tab=student");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadv00#");
   await page.click("//button[normalize-space()='Log in as student']");
-  await page.waitForURL("/advisor");
+  await page.waitForURL("/student");
 }
 
 export async function agentLogin(page) {
 
   await page.goto("/login?tab=student");
-  await page.fill("#email", "chalaunrrabina@gmail.com");
-  await page.fill("#password", "bestNepal@123");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadv00#");
   await page.click("//button[normalize-space()='Log in as student']");
-  await page.waitForURL("/advisor");
+  await page.waitForURL("/student");
 }
 
 export async function adminLogin(page, email, password) {
