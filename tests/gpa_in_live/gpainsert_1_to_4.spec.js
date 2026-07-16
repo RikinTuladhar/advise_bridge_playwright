@@ -1,52 +1,50 @@
-// populate-gpas-0.11-to-1.00.spec.js
+// populate-gpas-resume-to-4.00.spec.js
 //
-// Populates the "US 4.0 GPA" scale on staging.advisebridge.com with GPA values
-// from START_GPA to END_GPA (GPA Score = GPA Total), skipping values that
-// already exist on the form.
+// RESUME RUN — picks up exactly where the interrupted run left off.
 //
-// Fixes vs the previous script:
-//  1. NO hard-coded record URL. The old /admin/gpas/1/edit record was deleted
-//     -> 404. We now open /admin/gpas and follow the Edit link of the row
-//     whose Scale text matches TARGET_SCALE, whatever its id is.
-//  2. Integer loop for value generation. The old `i += 0.01` float loop
-//     accumulated drift and silently skipped 1.00.
-//  3. Existing values are scanned ONCE and tracked in memory instead of
-//     re-reading every input on every iteration (much faster).
-//  4. After "Add More" we wait for the row count to actually increase,
-//     instead of blind timeouts.
-//  5. Leftover EMPTY rows (e.g. from a previously failed manual save) are
-//     reused and filled first — an empty row makes the whole save fail with
-//     "required" validation errors.
-//  6. Checkpoint saves every SAVE_EVERY rows, so a crash can never lose more
-//     than a few rows of work. Set SAVE_EVERY = 0 to save only once at the
-//     very end, exactly like the manual workflow.
-//  7. After the final save, the page is reloaded and every target value is
-//     verified against what the server actually persisted.
+// Nothing in the database was harmed by closing the tab: everything up to the
+// last checkpoint save is already stored (with SAVE_EVERY=20 and a stop at
+// 2.39, that is almost certainly 0.00–2.20). The rows filled after that
+// checkpoint but never saved simply vanished with the tab, and this script
+// re-detects and re-inserts them automatically:
+//   scan form -> skip every value already saved -> continue adding -> 4.00.
 //
-// For the next batches (your final goal is 0.00–4.00) just change
-// START_GPA / END_GPA, e.g. 1.01 -> 2.00, and re-run. Duplicates are always
-// skipped automatically, so overlapping ranges are harmless.
+// Changes vs the previous run, based on what went wrong:
+//  1. Forced HEADLESS mode — no browser window opens, so there is no tab to
+//     accidentally close. (Delete the test.use line below if you want to
+//     watch it work.)
+//  2. Checkpoint saves every 10 rows instead of 20 — any future interruption
+//     can only ever cost ~10 rows of redo time.
+//  3. The scan now logs the exact value it resumes from, so you can confirm
+//     at a glance where the last run really stopped.
 
 const { test, expect } = require('@playwright/test');
+
+// No visible browser window -> nothing to accidentally close mid-run.
+test.use({ headless: true });
 
 // ------------------------------ configuration ------------------------------
 const BASE_URL     = 'https://staging.advisebridge.com';
 const EMAIL        = 'admin@advisebridge.com';
 const PASSWORD     = 'admin@advisebridge.com';
 const TARGET_SCALE = 'US 4.0 GPA'; // row text on /admin/gpas whose Edit we click
-const START_GPA    = 0.11;         // first value to insert
-const END_GPA      = 1.00;         // last value to insert (inclusive)
-const SAVE_EVERY   = 20;           // checkpoint-save every N new rows (0 = only one save at the very end)
+const START_GPA    = 0.00;         // full range: everything already saved is skipped
+const END_GPA      = 4.00;         // last value to insert (inclusive)
+const SAVE_EVERY   = 10;           // checkpoint-save every N new rows (0 = only one save at the very end)
 // ----------------------------------------------------------------------------
 
-test.setTimeout(1_800_000); // 30 minutes, plenty of headroom for ~90 rows
+test.setTimeout(10_800_000); // 3 hours — Livewire round trips get slower as
+                             // the repeater grows toward ~401 rows.
 
 test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFixed(2)}`, async ({ page }) => {
+  const startedAt = Date.now();
+  const elapsedMin = () => ((Date.now() - startedAt) / 60000).toFixed(1);
+
   // Auto-accept browser dialogs (e.g. "unsaved changes" prompt on reload).
   page.on('dialog', (dialog) => dialog.accept());
 
   // 1. Build the target list with an integer (cents) loop — no float drift,
-  //    so 1.00 is really included.
+  //    so 4.00 is really included.
   const targetGpaList = [];
   for (let c = Math.round(START_GPA * 100); c <= Math.round(END_GPA * 100); c++) {
     targetGpaList.push((c / 100).toFixed(2));
@@ -60,7 +58,7 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
   await page.waitForURL('**/admin', { timeout: 30_000 });
 
   // 3. Open the GPA list and follow the Edit action of the target row.
-  //    This is what prevents the 404 — we never guess the record id.
+  //    Never hard-code the record id — that is what caused the old 404.
   await page.goto(`${BASE_URL}/admin/gpas`);
   const row = page.locator('tr', { hasText: TARGET_SCALE }).first();
   await expect(row, `Row "${TARGET_SCALE}" not found on /admin/gpas`).toBeVisible({ timeout: 20_000 });
@@ -74,16 +72,21 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
   const totalInputs = page.locator('input[id$="gpa_total"]');
   await scoreInputs.first().waitFor({ state: 'visible', timeout: 30_000 });
 
-  // 4. One-time scan of what is already on the form.
-  let count = await scoreInputs.count();
+  // 4. One-time scan of what is already saved — a single page call reads
+  //    every score input at once. This is what makes the run resumable.
+  const initialValues = await scoreInputs.evaluateAll((els) => els.map((el) => el.value.trim()));
+  let count = initialValues.length;
   const existing = new Set();
   const emptyRows = []; // leftover empty rows from a previously failed save
-  for (let i = 0; i < count; i++) {
-    const v = (await scoreInputs.nth(i).inputValue()).trim();
+  initialValues.forEach((v, i) => {
     if (v === '') emptyRows.push(i);
     else existing.add(parseFloat(v).toFixed(2));
-  }
-  console.log(`[scan] ${count} existing rows. Values: ${[...existing].sort().join(', ') || '(none)'}`);
+  });
+
+  const plannedNew = targetGpaList.filter((g) => !existing.has(g)).length;
+  const firstMissing = targetGpaList.find((g) => !existing.has(g));
+  console.log(`[scan] ${count} existing rows, ${existing.size} distinct values already saved.`);
+  console.log(`[scan] ${plannedNew} value(s) left to insert.${firstMissing ? ` Resuming from ${firstMissing}.` : ''}`);
   if (emptyRows.length) console.log(`[scan] ${emptyRows.length} empty row(s) found — they will be reused first.`);
 
   const addMoreButton = page.getByRole('button', { name: 'Add More' });
@@ -96,15 +99,15 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
     // Register the wait BEFORE clicking to avoid missing a fast response.
     const livewireDone = page.waitForResponse(
       (r) => r.url().includes('/livewire/') && r.request().method() === 'POST' && r.status() === 200,
-      { timeout: 60_000 },
+      { timeout: 120_000 }, // saving hundreds of rows can take a while on staging
     );
     await saveButton.click();
     await livewireDone;
 
     // Filament shows a "Saved" toast on success, inline errors on failure.
     try {
-      await page.getByText('Saved', { exact: true }).first().waitFor({ state: 'visible', timeout: 8_000 });
-      console.log(`[saved] ${label}`);
+      await page.getByText('Saved', { exact: true }).first().waitFor({ state: 'visible', timeout: 10_000 });
+      console.log(`[saved] ${label} (elapsed ${elapsedMin()} min)`);
     } catch {
       const hasValidationError = await page.getByText(/required/i).first().isVisible().catch(() => false);
       if (hasValidationError) {
@@ -143,23 +146,23 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
   // 5. Main loop.
   let added = 0;
   let unsaved = 0;
-  console.log(`--- Inserting ${targetGpaList[0]} -> ${targetGpaList[targetGpaList.length - 1]} (${targetGpaList.length} values, existing ones skipped) ---`);
+  console.log(`--- Target range ${targetGpaList[0]} -> ${targetGpaList[targetGpaList.length - 1]} (${targetGpaList.length} values, existing ones skipped) ---`);
 
   for (const gpaValue of targetGpaList) {
     if (existing.has(gpaValue)) {
-      console.log(`[skip] ${gpaValue} already present`);
-      continue;
+      continue; // already saved — silent skip to keep the log readable
     }
 
     let rowIndex;
     if (emptyRows.length > 0) {
-      // Fill leftovers first — they would otherwise fail "required" validation.
+      // Fill leftovers first — an empty row fails "required" validation and
+      // would block every save.
       rowIndex = emptyRows.shift();
       console.log(`[reuse] empty row ${rowIndex + 1} -> ${gpaValue}`);
     } else {
       await addMoreButton.scrollIntoViewIfNeeded();
       await addMoreButton.click(); // Playwright auto-waits for it to be enabled
-      await expect(scoreInputs, 'New repeater row did not appear after "Add More"').toHaveCount(count + 1, { timeout: 20_000 });
+      await expect(scoreInputs, 'New repeater row did not appear after "Add More"').toHaveCount(count + 1, { timeout: 30_000 });
       count += 1;
       rowIndex = count - 1; // Filament appends new rows at the end
     }
@@ -171,7 +174,7 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
     console.log(`[ok] row ${rowIndex + 1} = ${gpaValue}`);
 
     if (SAVE_EVERY > 0 && unsaved >= SAVE_EVERY) {
-      await saveChanges(`checkpoint after ${gpaValue}`);
+      await saveChanges(`checkpoint after ${gpaValue} — progress ${added}/${plannedNew}`);
       unsaved = 0;
     }
   }
@@ -184,26 +187,33 @@ test(`Populate "${TARGET_SCALE}" with ${START_GPA.toFixed(2)} -> ${END_GPA.toFix
   }
 
   // 7. Verify persistence: reload so the form reflects the DATABASE, then
-  //    confirm every target value survived and score === total for them.
+  //    confirm every target value survived and Total === Score for them.
   await page.reload({ waitUntil: 'domcontentloaded' });
-  await scoreInputs.first().waitFor({ state: 'visible', timeout: 30_000 });
+  await scoreInputs.first().waitFor({ state: 'visible', timeout: 60_000 });
+  await page.waitForTimeout(1_000); // give the large form a moment to finish rendering
 
+  const finalScores = await scoreInputs.evaluateAll((els) => els.map((el) => el.value.trim()));
+  const finalTotals = await totalInputs.evaluateAll((els) => els.map((el) => el.value.trim()));
+
+  const targetSet = new Set(targetGpaList);
   const persisted = new Set();
-  const finalCount = await scoreInputs.count();
-  for (let i = 0; i < finalCount; i++) {
-    const s = (await scoreInputs.nth(i).inputValue()).trim();
-    if (s === '') continue;
+  const mismatched = [];
+  finalScores.forEach((s, i) => {
+    if (s === '') return;
     const sFixed = parseFloat(s).toFixed(2);
     persisted.add(sFixed);
-
-    if (targetGpaList.includes(sFixed)) {
-      const t = (await totalInputs.nth(i).inputValue()).trim();
-      expect(t === '' ? '(empty)' : parseFloat(t).toFixed(2), `Row ${i + 1}: GPA Total should equal GPA Score ${sFixed}`).toBe(sFixed);
+    if (targetSet.has(sFixed)) {
+      const t = (finalTotals[i] ?? '').trim();
+      if (t === '' || parseFloat(t).toFixed(2) !== sFixed) {
+        mismatched.push(`row ${i + 1}: score=${sFixed}, total=${t || '(empty)'}`);
+      }
     }
-  }
+  });
+
+  expect(mismatched, `GPA Total does not match GPA Score on: ${mismatched.join('; ')}`).toHaveLength(0);
 
   const missing = targetGpaList.filter((g) => !persisted.has(g));
   expect(missing, `Values missing on the server after save: ${missing.join(', ')}`).toHaveLength(0);
 
-  console.log(`--- DONE. Added ${added} new row(s). All ${targetGpaList.length} values from ${targetGpaList[0]} to ${targetGpaList[targetGpaList.length - 1]} verified as saved on the server. ---`);
+  console.log(`--- DONE in ${elapsedMin()} min. Added ${added} new row(s). All ${targetGpaList.length} values from ${targetGpaList[0]} to ${targetGpaList[targetGpaList.length - 1]} verified as saved on the server. ---`);
 });
