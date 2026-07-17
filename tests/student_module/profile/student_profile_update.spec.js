@@ -4,8 +4,8 @@ test("Student Dashboard", async ({ page }) => {
   await page.goto("/login?tab=student");
 
   await page.click("text=Student");
-  await page.fill("#email", "mamatakhanal08@gmail.com");
-  await page.fill("#password", "mamatakhanal08@gmail.com");
+  await page.fill("#email", "teamadvisebridge@gmail.com");
+  await page.fill("#password", "Teamadv00#");
   await page.click("//button[normalize-space()='Log in as student']");
 
   await expect(page).toHaveURL("/student");
@@ -205,13 +205,13 @@ test("Student Dashboard", async ({ page }) => {
   await expect(page).toHaveURL("/student/students/1478?tab=-documents-tab");
   await page.waitForTimeout(5000);
   const fileInputs = page.locator('input[type="file"]');
-  await fileInputs.nth(0).setInputFiles("tests/advisor/guest/upload/photo.jpg");
-  await fileInputs.nth(1).setInputFiles("tests/advisor/guest/upload/photo.jpg");
-  await fileInputs.nth(2).setInputFiles("tests/advisor/guest/upload/empty.pdf");
-  await fileInputs.nth(3).setInputFiles("tests/advisor/guest/upload/photo.jpg");
-  await fileInputs.nth(4).setInputFiles("tests/advisor/guest/upload/photo.jpg");
-  await fileInputs.nth(5).setInputFiles("tests/advisor/guest/upload/photo.jpg");
-  await fileInputs.nth(6).setInputFiles("tests/advisor/guest/upload/photo.jpg");
+  await fileInputs.nth(0).setInputFiles("files/advisor_images/photo.jpg");
+  await fileInputs.nth(1).setInputFiles("files/advisor_images/photo.jpg");
+  await fileInputs.nth(2).setInputFiles("files/advisor_images/Empty.pdf");
+  await fileInputs.nth(3).setInputFiles("files/advisor_images/photo.jpg");
+  await fileInputs.nth(4).setInputFiles("files/advisor_images/photo.jpg");
+  await fileInputs.nth(5).setInputFiles("files/advisor_images/photo.jpg");
+  await fileInputs.nth(6).setInputFiles("files/advisor_images/photo.jpg");
   // Save Button & Verify Success Message
   await page.locator('button:has-text("Save")').nth(5).click();
   await successMsg.waitFor({ state: "visible", timeout: 50000 });
