@@ -40,7 +40,7 @@ test.use({ headless: true, video: 'off', trace: 'off', screenshot: 'off' });
 const BASE_URL     = 'https://staging.advisebridge.com';
 const EMAIL        = 'admin@advisebridge.com';
 const PASSWORD     = 'admin@advisebridge.com';
-const TARGET_SCALE = 'Australia'; // substring of the row text on /admin/gpas
+const TARGET_SCALE = 'GPA (7-point)'; // substring of the row text on /admin/gpas
 const START_AUS    = 0.00;
 const END_AUS      = 7.00;
 const BATCH_ADD    = 25;          // add-actions fired per Livewire commit
