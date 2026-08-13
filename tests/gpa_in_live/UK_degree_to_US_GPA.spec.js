@@ -41,7 +41,7 @@ const SAVE_EVERY   = 25;
 
 // Verbatim from GPA_Comparison.xlsx — identical to your specification.
 const CLASS_LABELS = {
-  FAIL:  'Fail',
+  FAIL:  'F',
   THIRD: 'Third Class / Ordinary Pass',
   TWO2:  'Lower Second Class (2:2)',
   TWO1:  'Upper Second Class (2:1)',
