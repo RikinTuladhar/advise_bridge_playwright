@@ -51,7 +51,7 @@ const SAVE_EVERY   = 25;           // checkpoint-save every N filled rows
 // (and the short-code style of your Letter Grade scale). Edit here if you
 // ever change the convention (the pre-flight will tell you on mismatch).
 const GRADE_LABELS = {
-  NF: 'N/F',
+  NF: 'F',
   P:  'P',
   CR: 'CR',
   D:  'D',
